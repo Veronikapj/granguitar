@@ -1,0 +1,314 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gran Guitar ::: 클래식 기타 전문그룹 그랑기타 :::</title>
+    <meta name="description" content="클래식 기타 전문 수제 브랜드 그랑기타. 마스터 루티어 황의선 제작, 교육용, 중급용, 연주용, 전문가용 기타 및 악세서리, A/S 수리, 악보 라이브러리.">
+    
+    <!-- Google Fonts & Pretendard Modern Webfont -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;700;900&family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" as="style" crossorigin href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css" />
+    
+    <!-- App Styling -->
+    <link rel="stylesheet" href="index.css?v=25">
+</head>
+<body>
+    <!-- Background Audio BGM (Original Site Romance Audio) -->
+    <audio id="bgm-player" loop prefetch="auto">
+        <source src="http://granguitar.co.kr/wmv/romance.mp4" type="audio/mp4">
+        <source src="https://cdn.pixabay.com/download/audio/2022/05/27/audio_1808fbf07a.mp3?filename=spanish-guitar-romance-112999.mp3" type="audio/mp3">
+    </audio>
+
+    <!-- Main Outer Wrapper -->
+    <div id="wrap">
+        <!-- Header Section -->
+        <header id="header">
+            <div class="header-inner">
+                <!-- Brand Logo (Original Site Calligraphy Logo Image) -->
+                <div class="logo">
+                    <a href="#" data-route="home" class="nav-link logo-img-link">
+                        <img src="images/logo_dark.png" alt="GRAN GUITAR" class="header-logo-img">
+                    </a>
+                </div>
+
+                <!-- Search & Utilities Bar -->
+                <div class="gnb-utils">
+                    <!-- Audio BGM Toggle -->
+                    <button id="bgm-toggle-btn" class="btn-sound" title="BGM 사운드 켜기/끄기" aria-label="BGM 재생 토글">
+                        <span class="sound-icon">🎵</span>
+                        <span class="sound-text">BGM OFF</span>
+                        <div class="sound-wave">
+                            <span></span><span></span><span></span>
+                        </div>
+                    </button>
+
+                    <!-- Search Form -->
+                    <form id="search-form" class="search-box">
+                        <input type="text" id="search-input" placeholder="기타 모델, 악보, 수리 검색..." autocomplete="off">
+                        <button type="submit" class="btn-search-icon" aria-label="검색">🔍</button>
+                    </form>
+
+                    <!-- User Actions & Cart -->
+                    <div class="user-actions">
+                        <button class="btn-text" id="btn-open-join">JOIN</button>
+                        <button class="btn-text highlight" id="btn-open-login">LOGIN</button>
+                        <button class="btn-cart" id="btn-open-cart" aria-label="장바구니">
+                            🛒 <span id="cart-count" class="cart-badge">0</span>
+                        </button>
+                    </div>
+
+                    <!-- Mobile Hamburger Button -->
+                    <button id="btn-mobile-nav" class="btn-mobile-hamburger" aria-label="모바일 메뉴">☰</button>
+                </div>
+            </div>
+
+            <!-- Navigation Bar (LNB) & Submenu Dropdown (SNB) -->
+            <nav id="navigation">
+                <div class="nav-container">
+                    <!-- Mobile Drawer Top User Utility Bar -->
+                    <div class="mobile-nav-user-bar">
+                        <div class="mobile-user-info">
+                            <span class="m-user-icon">🎸</span>
+                            <span class="m-user-title"><strong>그랑기타</strong> Navigation</span>
+                        </div>
+                        <div class="mobile-user-actions">
+                            <button class="m-btn-util" id="btn-mobile-join-nav">JOIN</button>
+                            <button class="m-btn-util highlight" id="btn-mobile-login-nav">LOGIN</button>
+                        </div>
+                    </div>
+
+                    <ul class="lnb-menu">
+                        <!-- 1. ABOUT US -->
+                        <li class="lnb-item" data-menu="about">
+                            <a href="#" class="lnb-link" data-route="about_company">ABOUT US</a>
+                            <div class="snb-dropdown">
+                                <ul>
+                                    <li><a href="#" data-route="about_company">회사소개</a></li>
+                                    <li><a href="#" data-route="about_luthier">제작자 소개</a></li>
+                                    <li><a href="#" data-route="about_location">오시는 길</a></li>
+                                </ul>
+                            </div>
+                        </li>
+
+                        <!-- 2. PRODUCT -->
+                        <li class="lnb-item" data-menu="product">
+                            <a href="#" class="lnb-link" data-route="product_10">PRODUCT</a>
+                            <div class="snb-dropdown">
+                                <ul>
+                                    <li><a href="#" data-route="product_10">교육용</a></li>
+                                    <li><a href="#" data-route="product_20">중급용</a></li>
+                                    <li><a href="#" data-route="product_30">연주용</a></li>
+                                    <li><a href="#" data-route="product_40">전문가용</a></li>
+                                    <li><a href="#" data-route="product_50">악세서리</a></li>
+                                </ul>
+                            </div>
+                        </li>
+
+                        <!-- 3. NEWS -->
+                        <li class="lnb-item" data-menu="news">
+                            <a href="#" class="lnb-link" data-route="news_news">NEWS</a>
+                            <div class="snb-dropdown">
+                                <ul>
+                                    <li><a href="#" data-route="news_news">뉴스</a></li>
+                                    <li><a href="#" data-route="news_notice">공지사항</a></li>
+                                    <li><a href="#" data-route="news_concert">연주회 소식</a></li>
+                                </ul>
+                            </div>
+                        </li>
+
+                        <!-- 4. COMMUNITY -->
+                        <li class="lnb-item" data-menu="community">
+                            <a href="#" class="lnb-link" data-route="community_review">COMMUNITY</a>
+                            <div class="snb-dropdown">
+                                <ul>
+                                    <li><a href="#" data-route="community_review">체험단 리뷰</a></li>
+                                    <li><a href="#" data-route="community_faq">질문과 답변</a></li>
+                                    <li><a href="#" data-route="community_movie">연주 동영상</a></li>
+                                    <li><a href="#" data-route="community_music">악보</a></li>
+                                </ul>
+                            </div>
+                        </li>
+
+                        <!-- 5. SUPPORT -->
+                        <li class="lnb-item" data-menu="support">
+                            <a href="#" class="lnb-link" data-route="support_as">SUPPORT</a>
+                            <div class="snb-dropdown">
+                                <ul>
+                                    <li><a href="#" data-route="support_as">A/S 신청</a></li>
+                                    <li><a href="#" data-route="support_guitar">기타관련 상식</a></li>
+                                </ul>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+            </nav>
+        </header>
+
+        <!-- Main Dynamic App Container -->
+        <main id="app-content">
+            <!-- Rendered dynamically by app.js & pages.js -->
+        </main>
+
+
+        <!-- Footer -->
+        <footer id="footer">
+            <div class="footer-inner">
+                <div class="foot-top">
+                    <div class="foot-logo">
+                        <img src="images/logo.png" alt="GRAN GUITAR" style="height: 40px; width: auto; display: block; margin-bottom: 4px;">
+                        <p style="font-size: 0.75rem; color: var(--accent-gold); letter-spacing: 1px;">CLASSICAL GUITAR CRAFT WORKSHOP</p>
+                    </div>
+                    <div class="foot-sns">
+                        <a href="http://facebook.com/GranGuitarEnsemble" target="_blank" rel="noopener" aria-label="Facebook">📘 Facebook</a>
+                        <a href="http://cafe.naver.com/fallinguitar" target="_blank" rel="noopener" aria-label="Naver Cafe">🟢 Naver Cafe</a>
+                        <a href="https://youtube.com" target="_blank" rel="noopener" aria-label="YouTube">▶️ YouTube</a>
+                    </div>
+                </div>
+
+                <div class="foot-info">
+                    <div class="foot-links">
+                        <a href="#" data-route="privacy" class="nav-link-sub"><b>개인정보취급방침</b></a> | 
+                        <a href="#" data-route="provision" class="nav-link-sub"><b>서비스이용약관</b></a>
+                    </div>
+                    <p class="company-details">
+                        <b>회사명 : </b> 그랑기타 | <b>대표 : </b> 황의선 | <b>사업자 등록번호 : </b> 814-03-00676 | <b>통신판매업신고번호 : </b> 제 2017-서울송파-1110 호<br>
+                        <b>주소 : </b> 서울특별시 송파구 오금로46길 25 일정빌딩 2층 202호 | <b>전화 : </b> 02-3446-9286 (010-6214-4971) | <b>이메일 : </b> granguitar@naver.com
+                    </p>
+                    <div class="escrow-cert">
+                        <span class="escrow-badge"><img src="http://image.inicis.com/mkt/certmark/escrow/escrow_74x74_color.png" alt="이니시스 에스크로" style="height:24px; vertical-align:middle; margin-right:6px;"> INICIS 안전결제 에스크로 서비스 가입업소</span>
+                        <span class="copyright">(c)2015 gran guitar. All right Reserved. site by MOvementk group.</span>
+                    </div>
+                </div>
+            </div>
+        </footer>
+    </div>
+
+    <!-- Web App Popups (Popups 5 & 9 matching original site 1:1) -->
+    <dialog id="popup-notice-5" class="site-popup" closedby="any">
+        <div class="popup-header">
+            <h3>📢 그랑기타 알림 소식</h3>
+            <button class="popup-close-x" onclick="document.getElementById('popup-notice-5').close()">×</button>
+        </div>
+        <div class="popup-body">
+            <div class="popup-badge">NEW ANNOUNCEMENT</div>
+            <h4>그랑기타 정기 연주회 & 루티어 시연회 개최</h4>
+            <p>마스터 루티어 황의선과 그랑기타 앙상블이 함께하는 신작 클래식 기타 시연회에 여러분을 초청합니다.</p>
+            <div class="popup-img-box">
+                <img src="http://www.granguitar.co.kr/shop/data/editor/2205/bd2166bd35ff40351ddc620309449c82_1652139336_5231.bmp" alt="시연회 소식">
+            </div>
+        </div>
+        <div class="popup-footer">
+            <button class="btn-pop-dismiss" onclick="window.dismissPopup('popup-notice-5')">24시간 동안 다시 열람하지 않습니다</button>
+            <button class="btn-pop-close" onclick="document.getElementById('popup-notice-5').close()">닫기</button>
+        </div>
+    </dialog>
+
+    <dialog id="popup-notice-9" class="site-popup" closedby="any">
+        <div class="popup-header">
+            <h3>🌐 GLOBAL DISTRIBUTION</h3>
+            <button class="popup-close-x" onclick="document.getElementById('popup-notice-9').close()">×</button>
+        </div>
+        <div class="popup-body">
+            <div class="popup-badge highlight">SKYGUITAR 협력</div>
+            <h4>SKYGUITAR와 함께 해외공급을 시작합니다</h4>
+            <p>그랑기타 수제 명품 클래식 기타 라인업이 해외 수제 기타 디스트리뷰터 SKYGUITAR를 통해 세계 무대로 진출합니다.</p>
+            <div class="popup-img-box" style="margin-bottom: 0.8rem;">
+                <img src="http://www.granguitar.co.kr/shop/data/editor/2010/6e87c16927cd2c5c62d71e7d9eebe5ea_1603257752_1221.jpg" alt="SKYGUITAR 해외공급">
+            </div>
+            <a href="#" data-route="news_news" class="popup-link nav-link">▶ 자세히 보기</a>
+        </div>
+        <div class="popup-footer">
+            <button class="btn-pop-dismiss" onclick="window.dismissPopup('popup-notice-9')">24시간 동안 다시 열람하지 않습니다</button>
+            <button class="btn-pop-close" onclick="document.getElementById('popup-notice-9').close()">닫기</button>
+        </div>
+    </dialog>
+
+    <!-- Product Detail & Audio Preview Modal -->
+    <dialog id="product-detail-modal" class="app-modal" closedby="any">
+        <div class="modal-content-wrapper">
+            <button class="modal-close" onclick="document.getElementById('product-detail-modal').close()">×</button>
+            <div id="modal-product-body">
+                <!-- Dynamically populated -->
+            </div>
+        </div>
+    </dialog>
+
+    <!-- Shopping Cart Modal -->
+    <dialog id="cart-modal" class="app-modal drawer-modal" closedby="any">
+        <div class="modal-content-wrapper cart-drawer">
+            <div class="cart-header">
+                <h2>🛒 장바구니 / 구매 및 시연 문의</h2>
+                <button class="modal-close" onclick="document.getElementById('cart-modal').close()">×</button>
+            </div>
+            <div id="cart-items-container" class="cart-body">
+                <!-- Dynamically populated -->
+            </div>
+            <div class="cart-footer">
+                <div class="cart-total-row">
+                    <span>총 예상 금액:</span>
+                    <strong id="cart-total-price">0원</strong>
+                </div>
+                <div class="cart-actions">
+                    <button class="btn-secondary" onclick="document.getElementById('cart-modal').close()">쇼핑 계속하기</button>
+                    <button class="btn-primary" id="btn-checkout-inquiry">구매 / 방문 시연 문의하기</button>
+                </div>
+            </div>
+        </div>
+    </dialog>
+
+    <!-- Auth Modal (Login / Join) -->
+    <dialog id="auth-modal" class="app-modal" closedby="any">
+        <div class="modal-content-wrapper auth-box">
+            <button class="modal-close" onclick="document.getElementById('auth-modal').close()">×</button>
+            <div class="auth-tabs">
+                <button class="auth-tab active" id="tab-login-btn">로그인</button>
+                <button class="auth-tab" id="tab-join-btn">회원가입</button>
+            </div>
+            <div id="auth-tab-content">
+                <!-- Dynamically rendered -->
+            </div>
+        </div>
+    </dialog>
+
+    <!-- A/S & Repair Request Modal -->
+    <dialog id="as-request-modal" class="app-modal" closedby="any">
+        <div class="modal-content-wrapper">
+            <div class="modal-header">
+                <h2>🔧 A/S 및 리페어 수리 온라인 신청</h2>
+                <button class="modal-close" onclick="document.getElementById('as-request-modal').close()">×</button>
+            </div>
+            <form id="as-form" class="modal-form">
+                <div class="form-group">
+                    <label for="as-name">성함 / 연락처 *</label>
+                    <input type="text" id="as-name" required placeholder="홍길동 (010-0000-0000)">
+                </div>
+                <div class="form-group">
+                    <label for="as-model">소장 기타 모델명 / 제작연도</label>
+                    <input type="text" id="as-model" placeholder="예: 그랑기타 30호 / 2021년">
+                </div>
+                <div class="form-group">
+                    <label for="as-type">수리/점검 요청 증상</label>
+                    <select id="as-type">
+                        <option value="setup">버징 / 넥 세팅 & 셋업</option>
+                        <option value="crack">전/측후판 크랙 수리</option>
+                        <option value="fret">프렛 드레싱 & 리프렛</option>
+                        <option value="finish">칠/도장 보수 (프렌치 폴리시)</option>
+                        <option value="etc">기타 점검 및 줄 교체</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="as-desc">상세 내용 설명</label>
+                    <textarea id="as-desc" rows="4" placeholder="기타의 상태나 수리가 필요한 부분을 상세히 적어주세요."></textarea>
+                </div>
+                <button type="submit" class="btn-primary full-width">A/S 수리 접수하기</button>
+            </form>
+        </div>
+    </dialog>
+
+    <!-- JavaScript Modules -->
+    <script type="module" src="js/app.js?v=25"></script>
+</body>
+</html>
