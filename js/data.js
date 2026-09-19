@@ -12,17 +12,17 @@ export const productsData = [
         subtitle: "교육용의 보급형 모델",
         price: 350000,
         priceFormatted: "350,000원",
-        image: "http://granguitar.co.kr/shop/data/item/1439526995/thumb-7YGs6riw67OA7ZmY_355_318x478.jpg",
+        image: "images/local_assets/thumb-7YGs6riw67OA7ZmY_355_318x478.jpg",
         images: [
-            "http://granguitar.co.kr/shop/data/item/1439526995/thumb-7YGs6riw67OA7ZmY_355_318x478.jpg",
-            "http://granguitar.co.kr/shop/data/item/1439526995/thumb-7YGs6riw67OA7ZmY_3551_318x478.jpg",
-            "http://granguitar.co.kr/shop/data/item/1439526995/thumb-7YGs6riw67OA7ZmY_HCH_1636_318x478.jpg",
-            "http://granguitar.co.kr/shop/data/item/1439526995/thumb-7YGs6riw67OA7ZmY_3557JiG_318x478.jpg"
+            "images/local_assets/thumb-7YGs6riw67OA7ZmY_355_318x478.jpg",
+            "images/local_assets/thumb-7YGs6riw67OA7ZmY_3551_318x478.jpg",
+            "images/local_assets/thumb-7YGs6riw67OA7ZmY_HCH_1636_318x478.jpg",
+            "images/local_assets/thumb-7YGs6riw67OA7ZmY_3557JiG_318x478.jpg"
         ],
-        detailBodyImage: "http://www.granguitar.co.kr/shop/data/editor/2305/7e75c4b3785e673f94c17d8fba887abd_1683160908_4838.jpg",
+        detailBodyImage: "images/local_assets/7e75c4b3785e673f94c17d8fba887abd_1683160908_4838.jpg",
         detailExtraImages: [
-            "http://granguitar.co.kr/images/product/spec_con01.gif",
-            "http://granguitar.co.kr/images/product/spec_con02.gif"
+            "images/local_assets/spec_con01.gif",
+            "images/local_assets/spec_con02.gif"
         ],
         youtubeEmbed: "https://www.youtube.com/embed/oAtVOrdkyBo",
         topWood: "Cedar / Spruce",
@@ -42,17 +42,17 @@ export const productsData = [
         subtitle: "교육용의 고급형 모델",
         price: 600000,
         priceFormatted: "600,000원",
-        image: "http://granguitar.co.kr/shop/data/item/1439529119/thumb-7YGs6riw67OA7ZmY_60_318x478.jpg",
+        image: "images/local_assets/thumb-7YGs6riw67OA7ZmY_60_318x478.jpg",
         images: [
-            "http://granguitar.co.kr/shop/data/item/1439529119/thumb-7YGs6riw67OA7ZmY_60_318x478.jpg",
-            "http://granguitar.co.kr/shop/data/item/1439529119/thumb-7YGs6riw67OA7ZmY_601_318x478.jpg",
-            "http://granguitar.co.kr/shop/data/item/1439529119/thumb-7YGs6riw67OA7ZmY_HCH_1632_318x478.jpg",
-            "http://granguitar.co.kr/shop/data/item/1439529119/thumb-7YGs6riw67OA7ZmY_607JiG_318x478.jpg"
+            "images/local_assets/thumb-7YGs6riw67OA7ZmY_60_318x478.jpg",
+            "images/local_assets/thumb-7YGs6riw67OA7ZmY_601_318x478.jpg",
+            "images/local_assets/thumb-7YGs6riw67OA7ZmY_HCH_1632_318x478.jpg",
+            "images/local_assets/thumb-7YGs6riw67OA7ZmY_607JiG_318x478.jpg"
         ],
-        detailBodyImage: "http://www.granguitar.co.kr/shop/data/editor/2305/7e75c4b3785e673f94c17d8fba887abd_1683161787_9584.jpg",
+        detailBodyImage: "images/local_assets/7e75c4b3785e673f94c17d8fba887abd_1683161787_9584.jpg",
         detailExtraImages: [
-            "http://granguitar.co.kr/images/product/spec_con01.gif",
-            "http://granguitar.co.kr/images/product/spec_con02.gif"
+            "images/local_assets/spec_con01.gif",
+            "images/local_assets/spec_con02.gif"
         ],
         youtubeEmbed: "https://www.youtube.com/embed/4marsJH41EA",
         topWood: "Cedar",
@@ -72,17 +72,17 @@ export const productsData = [
         subtitle: "교육용의 최고급형 모델",
         price: 1000000,
         priceFormatted: "1,000,000원",
-        image: "http://granguitar.co.kr/shop/data/item/1439529202/thumb-7YGs6riw67OA7ZmY_100_318x478.jpg",
+        image: "images/local_assets/thumb-7YGs6riw67OA7ZmY_100_318x478.jpg",
         images: [
-            "http://granguitar.co.kr/shop/data/item/1439529202/thumb-7YGs6riw67OA7ZmY_100_318x478.jpg",
-            "http://granguitar.co.kr/shop/data/item/1439529202/thumb-7YGs6riw67OA7ZmY_1001_318x478.jpg",
-            "http://granguitar.co.kr/shop/data/item/1439529202/thumb-7YGs6riw67OA7ZmY_HCH_1632_318x478.jpg",
-            "http://granguitar.co.kr/shop/data/item/1439529202/thumb-7YGs6riw67OA7ZmY_1007JiG_318x478.jpg"
+            "images/local_assets/thumb-7YGs6riw67OA7ZmY_100_318x478.jpg",
+            "images/local_assets/thumb-7YGs6riw67OA7ZmY_1001_318x478.jpg",
+            "images/local_assets/thumb-7YGs6riw67OA7ZmY_HCH_1632_318x478.jpg",
+            "images/local_assets/thumb-7YGs6riw67OA7ZmY_1007JiG_318x478.jpg"
         ],
-        detailBodyImage: "http://www.granguitar.co.kr/shop/data/editor/2305/7e75c4b3785e673f94c17d8fba887abd_1683161946_5991.jpg",
+        detailBodyImage: "images/local_assets/7e75c4b3785e673f94c17d8fba887abd_1683161946_5991.jpg",
         detailExtraImages: [
-            "http://granguitar.co.kr/images/product/spec_con01.gif",
-            "http://granguitar.co.kr/images/product/spec_con03.gif"
+            "images/local_assets/spec_con01.gif",
+            "images/local_assets/spec_con03.gif"
         ],
         youtubeEmbed: "https://www.youtube.com/embed/fWKS3eMk5Rw",
         topWood: "Spruce",
@@ -102,16 +102,16 @@ export const productsData = [
         subtitle: "교육용 보급형 리퍼 모델",
         price: 280000,
         priceFormatted: "280,000원",
-        image: "http://granguitar.co.kr/shop/data/item/1453438068/thumb-7YGs6riw67OA7ZmY_355_318x478.jpg",
+        image: "images/local_assets/thumb-7YGs6riw67OA7ZmY_355_318x478.jpg",
         images: [
-            "http://granguitar.co.kr/shop/data/item/1453438068/thumb-7YGs6riw67OA7ZmY_355_318x478.jpg",
-            "http://granguitar.co.kr/shop/data/item/1453438068/thumb-7YGs6riw67OA7ZmY_3551_318x478.jpg",
-            "http://granguitar.co.kr/shop/data/item/1453438068/thumb-7YGs6riw67OA7ZmY_HCH_1636_318x478.jpg",
-            "http://granguitar.co.kr/shop/data/item/1453438068/thumb-7YGs6riw67OA7ZmY_3557JiG_318x478.jpg"
+            "images/local_assets/thumb-7YGs6riw67OA7ZmY_355_318x478.jpg",
+            "images/local_assets/thumb-7YGs6riw67OA7ZmY_3551_318x478.jpg",
+            "images/local_assets/thumb-7YGs6riw67OA7ZmY_HCH_1636_318x478.jpg",
+            "images/local_assets/thumb-7YGs6riw67OA7ZmY_3557JiG_318x478.jpg"
         ],
-        detailBodyImage: "http://www.granguitar.co.kr/shop/data/editor/2305/7e75c4b3785e673f94c17d8fba887abd_1683160908_4838.jpg",
+        detailBodyImage: "images/local_assets/7e75c4b3785e673f94c17d8fba887abd_1683160908_4838.jpg",
         detailExtraImages: [
-            "http://granguitar.co.kr/images/product/spec_con01.gif"
+            "images/local_assets/spec_con01.gif"
         ],
         youtubeEmbed: "https://www.youtube.com/embed/oAtVOrdkyBo",
         topWood: "Cedar Top",
@@ -131,16 +131,16 @@ export const productsData = [
         subtitle: "교육용 고급형 리퍼 모델",
         price: 480000,
         priceFormatted: "480,000원",
-        image: "http://granguitar.co.kr/shop/data/item/1440148787/thumb-7YGs6riw67OA7ZmY_60_318x478.jpg",
+        image: "images/local_assets/thumb-7YGs6riw67OA7ZmY_60_318x478.jpg",
         images: [
-            "http://granguitar.co.kr/shop/data/item/1440148787/thumb-7YGs6riw67OA7ZmY_60_318x478.jpg",
-            "http://granguitar.co.kr/shop/data/item/1440148787/thumb-7YGs6riw67OA7ZmY_601_318x478.jpg",
-            "http://granguitar.co.kr/shop/data/item/1440148787/thumb-7YGs6riw67OA7ZmY_HCH_1632_318x478.jpg",
-            "http://granguitar.co.kr/shop/data/item/1440148787/thumb-7YGs6riw67OA7ZmY_607JiG_318x478.jpg"
+            "images/local_assets/thumb-7YGs6riw67OA7ZmY_60_318x478.jpg",
+            "images/local_assets/thumb-7YGs6riw67OA7ZmY_601_318x478.jpg",
+            "images/local_assets/thumb-7YGs6riw67OA7ZmY_HCH_1632_318x478.jpg",
+            "images/local_assets/thumb-7YGs6riw67OA7ZmY_607JiG_318x478.jpg"
         ],
-        detailBodyImage: "http://www.granguitar.co.kr/shop/data/editor/2305/7e75c4b3785e673f94c17d8fba887abd_1683161787_9584.jpg",
+        detailBodyImage: "images/local_assets/7e75c4b3785e673f94c17d8fba887abd_1683161787_9584.jpg",
         detailExtraImages: [
-            "http://granguitar.co.kr/images/product/spec_con01.gif"
+            "images/local_assets/spec_con01.gif"
         ],
         youtubeEmbed: "https://www.youtube.com/embed/4marsJH41EA",
         topWood: "Cedar",
@@ -162,17 +162,17 @@ export const productsData = [
         subtitle: "중급 연주자용 모델",
         price: 1800000,
         priceFormatted: "1,800,000원",
-        image: "http://granguitar.co.kr/shop/data/item/1439529483/thumb-7YGs6riw67OA7ZmY_180SP_318x478.jpg",
+        image: "images/local_assets/thumb-7YGs6riw67OA7ZmY_180SP_318x478.jpg",
         images: [
-            "http://granguitar.co.kr/shop/data/item/1439529483/thumb-7YGs6riw67OA7ZmY_180SP_318x478.jpg",
-            "http://granguitar.co.kr/shop/data/item/1439529483/thumb-7YGs6riw67OA7ZmY_HCH_1632_318x478.jpg",
-            "http://granguitar.co.kr/shop/data/item/1439529202/thumb-7YGs6riw67OA7ZmY_1001_318x478.jpg",
-            "http://granguitar.co.kr/shop/data/item/1439529202/thumb-7YGs6riw67OA7ZmY_1007JiG_318x478.jpg"
+            "images/local_assets/thumb-7YGs6riw67OA7ZmY_180SP_318x478.jpg",
+            "images/local_assets/thumb-7YGs6riw67OA7ZmY_HCH_1632_318x478.jpg",
+            "images/local_assets/thumb-7YGs6riw67OA7ZmY_1001_318x478.jpg",
+            "images/local_assets/thumb-7YGs6riw67OA7ZmY_1007JiG_318x478.jpg"
         ],
-        detailBodyImage: "http://www.granguitar.co.kr/shop/data/editor/2305/7e75c4b3785e673f94c17d8fba887abd_1683161946_5991.jpg",
+        detailBodyImage: "images/local_assets/7e75c4b3785e673f94c17d8fba887abd_1683161946_5991.jpg",
         detailExtraImages: [
-            "http://granguitar.co.kr/images/product/spec_con01.gif",
-            "http://granguitar.co.kr/images/product/spec_con02.gif"
+            "images/local_assets/spec_con01.gif",
+            "images/local_assets/spec_con02.gif"
         ],
         youtubeEmbed: "https://www.youtube.com/embed/fWKS3eMk5Rw",
         topWood: "Spruce",
@@ -192,17 +192,17 @@ export const productsData = [
         subtitle: "고급 중급 연주용 모델",
         price: 2500000,
         priceFormatted: "2,500,000원",
-        image: "http://granguitar.co.kr/shop/data/item/1439529633/thumb-7YGs6riw67OA7ZmY_250SP_318x478.jpg",
+        image: "images/local_assets/thumb-7YGs6riw67OA7ZmY_250SP_318x478.jpg",
         images: [
-            "http://granguitar.co.kr/shop/data/item/1439529633/thumb-7YGs6riw67OA7ZmY_250SP_318x478.jpg",
-            "http://granguitar.co.kr/shop/data/item/1439529633/thumb-7YGs6riw67OA7ZmY_HCH_1632_318x478.jpg",
-            "http://granguitar.co.kr/shop/data/item/1439529202/thumb-7YGs6riw67OA7ZmY_1001_318x478.jpg",
-            "http://granguitar.co.kr/shop/data/item/1439529202/thumb-7YGs6riw67OA7ZmY_1007JiG_318x478.jpg"
+            "images/local_assets/thumb-7YGs6riw67OA7ZmY_250SP_318x478.jpg",
+            "images/local_assets/thumb-7YGs6riw67OA7ZmY_HCH_1632_318x478.jpg",
+            "images/local_assets/thumb-7YGs6riw67OA7ZmY_1001_318x478.jpg",
+            "images/local_assets/thumb-7YGs6riw67OA7ZmY_1007JiG_318x478.jpg"
         ],
-        detailBodyImage: "http://www.granguitar.co.kr/shop/data/editor/2305/7e75c4b3785e673f94c17d8fba887abd_1683161946_5991.jpg",
+        detailBodyImage: "images/local_assets/7e75c4b3785e673f94c17d8fba887abd_1683161946_5991.jpg",
         detailExtraImages: [
-            "http://granguitar.co.kr/images/product/spec_con01.gif",
-            "http://granguitar.co.kr/images/product/spec_con03.gif"
+            "images/local_assets/spec_con01.gif",
+            "images/local_assets/spec_con03.gif"
         ],
         youtubeEmbed: "https://www.youtube.com/embed/fWKS3eMk5Rw",
         topWood: "Spruce",
@@ -224,17 +224,17 @@ export const productsData = [
         subtitle: "전문 연주가용 콘서트 모델",
         price: 4000000,
         priceFormatted: "4,000,000원",
-        image: "http://granguitar.co.kr/shop/data/item/1439529876/thumb-7YGs6riw67OA7ZmY_400SP_318x478.jpg",
+        image: "images/local_assets/thumb-7YGs6riw67OA7ZmY_400SP_318x478.jpg",
         images: [
-            "http://granguitar.co.kr/shop/data/item/1439529876/thumb-7YGs6riw67OA7ZmY_400SP_318x478.jpg",
-            "http://granguitar.co.kr/shop/data/item/1439529202/thumb-7YGs6riw67OA7ZmY_HCH_1632_318x478.jpg",
-            "http://granguitar.co.kr/shop/data/item/1439529202/thumb-7YGs6riw67OA7ZmY_1001_318x478.jpg",
-            "http://granguitar.co.kr/shop/data/item/1439529202/thumb-7YGs6riw67OA7ZmY_1007JiG_318x478.jpg"
+            "images/local_assets/thumb-7YGs6riw67OA7ZmY_400SP_318x478.jpg",
+            "images/local_assets/thumb-7YGs6riw67OA7ZmY_HCH_1632_318x478.jpg",
+            "images/local_assets/thumb-7YGs6riw67OA7ZmY_1001_318x478.jpg",
+            "images/local_assets/thumb-7YGs6riw67OA7ZmY_1007JiG_318x478.jpg"
         ],
-        detailBodyImage: "http://www.granguitar.co.kr/shop/data/editor/2305/7e75c4b3785e673f94c17d8fba887abd_1683161946_5991.jpg",
+        detailBodyImage: "images/local_assets/7e75c4b3785e673f94c17d8fba887abd_1683161946_5991.jpg",
         detailExtraImages: [
-            "http://granguitar.co.kr/images/product/spec_con01.gif",
-            "http://granguitar.co.kr/images/product/spec_con02.gif"
+            "images/local_assets/spec_con01.gif",
+            "images/local_assets/spec_con02.gif"
         ],
         youtubeEmbed: "https://www.youtube.com/embed/4dTEE070KKo",
         topWood: "Spruce",
@@ -254,17 +254,17 @@ export const productsData = [
         subtitle: "플래그십 마스터 콘서트 모델",
         price: 6000000,
         priceFormatted: "6,000,000원",
-        image: "http://granguitar.co.kr/shop/data/item/1439529942/thumb-7YGs6riw67OA7ZmY_600SP_318x478.jpg",
+        image: "images/local_assets/thumb-7YGs6riw67OA7ZmY_600SP_318x478.jpg",
         images: [
-            "http://granguitar.co.kr/shop/data/item/1439529942/thumb-7YGs6riw67OA7ZmY_600SP_318x478.jpg",
-            "http://granguitar.co.kr/shop/data/item/1439529202/thumb-7YGs6riw67OA7ZmY_HCH_1632_318x478.jpg",
-            "http://granguitar.co.kr/shop/data/item/1439529202/thumb-7YGs6riw67OA7ZmY_1001_318x478.jpg",
-            "http://granguitar.co.kr/shop/data/item/1439529202/thumb-7YGs6riw67OA7ZmY_1007JiG_318x478.jpg"
+            "images/local_assets/thumb-7YGs6riw67OA7ZmY_600SP_318x478.jpg",
+            "images/local_assets/thumb-7YGs6riw67OA7ZmY_HCH_1632_318x478.jpg",
+            "images/local_assets/thumb-7YGs6riw67OA7ZmY_1001_318x478.jpg",
+            "images/local_assets/thumb-7YGs6riw67OA7ZmY_1007JiG_318x478.jpg"
         ],
-        detailBodyImage: "http://www.granguitar.co.kr/shop/data/editor/2305/7e75c4b3785e673f94c17d8fba887abd_1683161946_5991.jpg",
+        detailBodyImage: "images/local_assets/7e75c4b3785e673f94c17d8fba887abd_1683161946_5991.jpg",
         detailExtraImages: [
-            "http://granguitar.co.kr/images/product/spec_con01.gif",
-            "http://granguitar.co.kr/images/product/spec_con03.gif"
+            "images/local_assets/spec_con01.gif",
+            "images/local_assets/spec_con03.gif"
         ],
         youtubeEmbed: "https://www.youtube.com/embed/4dTEE070KKo",
         topWood: "Spruce",
@@ -286,17 +286,17 @@ export const productsData = [
         subtitle: "마스터 루티어 맞춤 제작 모델",
         price: 6500000,
         priceFormatted: "6,500,000원",
-        image: "http://granguitar.co.kr/shop/data/item/1439529942/thumb-7YGs6riw67OA7ZmY_600SP_318x478.jpg",
+        image: "images/local_assets/thumb-7YGs6riw67OA7ZmY_600SP_318x478.jpg",
         images: [
-            "http://granguitar.co.kr/shop/data/item/1439529942/thumb-7YGs6riw67OA7ZmY_600SP_318x478.jpg",
-            "http://granguitar.co.kr/shop/data/item/1439529202/thumb-7YGs6riw67OA7ZmY_HCH_1632_318x478.jpg",
-            "http://granguitar.co.kr/shop/data/item/1439529202/thumb-7YGs6riw67OA7ZmY_1001_318x478.jpg",
-            "http://granguitar.co.kr/shop/data/item/1439529202/thumb-7YGs6riw67OA7ZmY_1007JiG_318x478.jpg"
+            "images/local_assets/thumb-7YGs6riw67OA7ZmY_600SP_318x478.jpg",
+            "images/local_assets/thumb-7YGs6riw67OA7ZmY_HCH_1632_318x478.jpg",
+            "images/local_assets/thumb-7YGs6riw67OA7ZmY_1001_318x478.jpg",
+            "images/local_assets/thumb-7YGs6riw67OA7ZmY_1007JiG_318x478.jpg"
         ],
-        detailBodyImage: "http://www.granguitar.co.kr/shop/data/editor/2305/7e75c4b3785e673f94c17d8fba887abd_1683161946_5991.jpg",
+        detailBodyImage: "images/local_assets/7e75c4b3785e673f94c17d8fba887abd_1683161946_5991.jpg",
         detailExtraImages: [
-            "http://granguitar.co.kr/images/product/spec_con01.gif",
-            "http://granguitar.co.kr/images/product/spec_con02.gif"
+            "images/local_assets/spec_con01.gif",
+            "images/local_assets/spec_con02.gif"
         ],
         youtubeEmbed: "https://www.youtube.com/embed/4dTEE070KKo",
         topWood: "Spruce",
@@ -318,14 +318,14 @@ export const productsData = [
         subtitle: "초경량 카본 기타 케이스",
         price: 380000,
         priceFormatted: "380,000원",
-        image: "http://granguitar.co.kr/shop/data/item/1439526995/thumb-7YGs6riw67OA7ZmY_355_318x478.jpg",
+        image: "images/local_assets/thumb-7YGs6riw67OA7ZmY_355_318x478.jpg",
         images: [
-            "http://granguitar.co.kr/shop/data/item/1439526995/thumb-7YGs6riw67OA7ZmY_355_318x478.jpg",
-            "http://granguitar.co.kr/shop/data/item/1439526995/thumb-7YGs6riw67OA7ZmY_HCH_1636_318x478.jpg"
+            "images/local_assets/thumb-7YGs6riw67OA7ZmY_355_318x478.jpg",
+            "images/local_assets/thumb-7YGs6riw67OA7ZmY_HCH_1636_318x478.jpg"
         ],
-        detailBodyImage: "http://www.granguitar.co.kr/shop/data/editor/2305/7e75c4b3785e673f94c17d8fba887abd_1683160908_4838.jpg",
+        detailBodyImage: "images/local_assets/7e75c4b3785e673f94c17d8fba887abd_1683160908_4838.jpg",
         detailExtraImages: [
-            "http://granguitar.co.kr/images/product/spec_con01.gif"
+            "images/local_assets/spec_con01.gif"
         ],
         youtubeEmbed: "",
         topWood: "Carbon Fiber",
@@ -345,14 +345,14 @@ export const productsData = [
         subtitle: "클래식 기타 전용 고급 현",
         price: 28000,
         priceFormatted: "28,000원",
-        image: "http://granguitar.co.kr/shop/data/item/1439529119/thumb-7YGs6riw67OA7ZmY_60_318x478.jpg",
+        image: "images/local_assets/thumb-7YGs6riw67OA7ZmY_60_318x478.jpg",
         images: [
-            "http://granguitar.co.kr/shop/data/item/1439529119/thumb-7YGs6riw67OA7ZmY_60_318x478.jpg",
-            "http://granguitar.co.kr/shop/data/item/1439529119/thumb-7YGs6riw67OA7ZmY_601_318x478.jpg"
+            "images/local_assets/thumb-7YGs6riw67OA7ZmY_60_318x478.jpg",
+            "images/local_assets/thumb-7YGs6riw67OA7ZmY_601_318x478.jpg"
         ],
-        detailBodyImage: "http://www.granguitar.co.kr/shop/data/editor/2305/7e75c4b3785e673f94c17d8fba887abd_1683161787_9584.jpg",
+        detailBodyImage: "images/local_assets/7e75c4b3785e673f94c17d8fba887abd_1683161787_9584.jpg",
         detailExtraImages: [
-            "http://granguitar.co.kr/images/product/spec_con01.gif"
+            "images/local_assets/spec_con01.gif"
         ],
         youtubeEmbed: "",
         topWood: "High Tension Nylon",

@@ -9,14 +9,14 @@ export function renderHome() {
     return `
         <!-- Hero Carousel (Original Site Banners 100% 1:1) -->
         <section class="hero-carousel" id="hero-slider">
-            <div class="hero-slide active" style="background-image: url('http://granguitar.co.kr/shop/data/banner/1');">
-                <img src="http://granguitar.co.kr/shop/data/banner/1_2" alt="그랑기타 대표 메인 배너 1" class="hero-banner-img">
+            <div class="hero-slide active" style="background-image: url('images/local_assets/banner_1.jpg');">
+                <img src="images/local_assets/banner_1.jpg_2" alt="그랑기타 대표 메인 배너 1" class="hero-banner-img">
             </div>
-            <div class="hero-slide" style="background-image: url('http://granguitar.co.kr/shop/data/banner/2');">
-                <img src="http://granguitar.co.kr/shop/data/banner/2_2" alt="그랑기타 대표 메인 배너 2" class="hero-banner-img">
+            <div class="hero-slide" style="background-image: url('images/local_assets/banner_2.jpg');">
+                <img src="images/local_assets/banner_2.jpg_2" alt="그랑기타 대표 메인 배너 2" class="hero-banner-img">
             </div>
-            <div class="hero-slide" style="background-image: url('http://granguitar.co.kr/shop/data/banner/3');">
-                <img src="http://granguitar.co.kr/shop/data/banner/3_2" alt="그랑기타 대표 메인 배너 3" class="hero-banner-img">
+            <div class="hero-slide" style="background-image: url('images/local_assets/banner_3.jpg');">
+                <img src="images/local_assets/banner_3.jpg_2" alt="그랑기타 대표 메인 배너 3" class="hero-banner-img">
             </div>
 
             <!-- Slide Navigation Controls -->
@@ -40,10 +40,10 @@ export function renderHome() {
             
             <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1.5rem; margin-bottom: 2rem;">
                 <a href="http://gran.mv-web.co.kr/shop" target="_blank" rel="noopener" style="display:block; border-radius: var(--radius-md); overflow:hidden; border:1px solid var(--border-gold);">
-                    <img src="http://granguitar.co.kr/shop/data/mainBanner/1" alt="메인 배너 1" style="width:100%; height:auto; display:block;">
+                    <img src="images/local_assets/mainBanner_1.jpg" alt="메인 배너 1" style="width:100%; height:auto; display:block;">
                 </a>
                 <div style="border-radius: var(--radius-md); overflow:hidden; border:1px solid var(--border-gold);">
-                    <img src="http://granguitar.co.kr/shop/data/mainBanner/2" alt="메인 배너 2" style="width:100%; height:auto; display:block;">
+                    <img src="images/local_assets/mainBanner_2.jpg" alt="메인 배너 2" style="width:100%; height:auto; display:block;">
                 </div>
             </div>
 
@@ -53,10 +53,10 @@ export function renderHome() {
                 </div>
                 <div style="display: flex; flex-direction: column; gap: 1rem;">
                     <div style="border-radius: var(--radius-md); overflow:hidden; border:1px solid var(--border-gold);">
-                        <img src="http://granguitar.co.kr/shop/data/mainBanner/4" alt="메인 배너 4" style="width:100%; height:auto; display:block;">
+                        <img src="images/local_assets/mainBanner_4.jpg" alt="메인 배너 4" style="width:100%; height:auto; display:block;">
                     </div>
                     <div style="border-radius: var(--radius-md); overflow:hidden; border:1px solid var(--border-gold);">
-                        <img src="http://granguitar.co.kr/shop/data/mainBanner/5" alt="메인 배너 5" style="width:100%; height:auto; display:block;">
+                        <img src="images/local_assets/mainBanner_5.jpg" alt="메인 배너 5" style="width:100%; height:auto; display:block;">
                     </div>
                 </div>
             </div>
@@ -96,13 +96,13 @@ export function renderHome() {
             </div>
             <div class="partners-grid">
                 <a href="http://cafe.naver.com/fallinguitar" target="_blank" rel="noopener" class="partner-card" style="padding:0; overflow:hidden; border: 1px solid var(--border-gold);">
-                    <img src="http://granguitar.co.kr/shop/data/mainBanner/6" alt="폴링기타 네이버 카페" style="width:100%; height:auto; display:block;">
+                    <img src="images/local_assets/mainBanner_6.jpg" alt="폴링기타 네이버 카페" style="width:100%; height:auto; display:block;">
                 </a>
                 <a href="http://www.facebook.com/GranGuitarEnsemble" target="_blank" rel="noopener" class="partner-card" style="padding:0; overflow:hidden; border: 1px solid var(--border-gold);">
-                    <img src="http://granguitar.co.kr/shop/data/mainBanner/7" alt="그랑기타 앙상블 페이스북" style="width:100%; height:auto; display:block;">
+                    <img src="images/local_assets/mainBanner_7.jpg" alt="그랑기타 앙상블 페이스북" style="width:100%; height:auto; display:block;">
                 </a>
                 <a href="http://www.gopherwood.co.kr/" target="_blank" rel="noopener" class="partner-card" style="padding:0; overflow:hidden; border: 1px solid var(--border-gold);">
-                    <img src="http://granguitar.co.kr/shop/data/mainBanner/8" alt="고퍼우드 음향 파트너" style="width:100%; height:auto; display:block;">
+                    <img src="images/local_assets/mainBanner_8.jpg" alt="고퍼우드 음향 파트너" style="width:100%; height:auto; display:block;">
                 </a>
             </div>
         </section>
@@ -120,9 +120,9 @@ export function renderAboutCompany() {
             </div>
             <div style="background: var(--bg-surface); border: 1px solid var(--border-gold); padding: 2rem; border-radius: var(--radius-lg); text-align: center;">
                 <div style="display: flex; flex-direction: column; gap: 1.5rem; align-items: center;">
-                    <img src="http://granguitar.co.kr/images/about/about_con01.jpg" alt="그랑기타 회사소개 1" style="max-width: 100%; height: auto; border-radius: var(--radius-md); border: 1px solid var(--border-light);">
-                    <img src="http://granguitar.co.kr/images/about/about_con02.jpg" alt="그랑기타 회사소개 2" style="max-width: 100%; height: auto; border-radius: var(--radius-md); border: 1px solid var(--border-light);">
-                    <img src="http://granguitar.co.kr/images/about/about_con03.jpg" alt="그랑기타 회사소개 3" style="max-width: 100%; height: auto; border-radius: var(--radius-md); border: 1px solid var(--border-light);">
+                    <img src="images/local_assets/about_con01.jpg" alt="그랑기타 회사소개 1" style="max-width: 100%; height: auto; border-radius: var(--radius-md); border: 1px solid var(--border-light);">
+                    <img src="images/local_assets/about_con02.jpg" alt="그랑기타 회사소개 2" style="max-width: 100%; height: auto; border-radius: var(--radius-md); border: 1px solid var(--border-light);">
+                    <img src="images/local_assets/about_con03.jpg" alt="그랑기타 회사소개 3" style="max-width: 100%; height: auto; border-radius: var(--radius-md); border: 1px solid var(--border-light);">
                 </div>
             </div>
         </div>
@@ -138,10 +138,10 @@ export function renderAboutLuthier() {
             </div>
             <div style="background: var(--bg-surface); border: 1px solid var(--border-gold); padding: 2rem; border-radius: var(--radius-lg); text-align: center;">
                 <div style="display: flex; flex-direction: column; gap: 1.5rem; align-items: center;">
-                    <img src="http://granguitar.co.kr/images/about/luthier_con01.jpg" alt="제작자 소개 1" style="max-width: 100%; height: auto; border-radius: var(--radius-md); border: 1px solid var(--border-light);">
-                    <img src="http://granguitar.co.kr/images/about/luthier_con02.gif" alt="제작자 소개 2" style="max-width: 100%; height: auto; border-radius: var(--radius-md); border: 1px solid var(--border-light);">
-                    <img src="http://granguitar.co.kr/images/about/luthier_con03.jpg" alt="제작자 소개 3" style="max-width: 100%; height: auto; border-radius: var(--radius-md); border: 1px solid var(--border-light);">
-                    <img src="http://granguitar.co.kr/images/about/luthier_con04.jpg" alt="제작자 소개 4" style="max-width: 100%; height: auto; border-radius: var(--radius-md); border: 1px solid var(--border-light);">
+                    <img src="images/local_assets/luthier_con01.jpg" alt="제작자 소개 1" style="max-width: 100%; height: auto; border-radius: var(--radius-md); border: 1px solid var(--border-light);">
+                    <img src="images/local_assets/luthier_con02.gif" alt="제작자 소개 2" style="max-width: 100%; height: auto; border-radius: var(--radius-md); border: 1px solid var(--border-light);">
+                    <img src="images/local_assets/luthier_con03.jpg" alt="제작자 소개 3" style="max-width: 100%; height: auto; border-radius: var(--radius-md); border: 1px solid var(--border-light);">
+                    <img src="images/local_assets/luthier_con04.jpg" alt="제작자 소개 4" style="max-width: 100%; height: auto; border-radius: var(--radius-md); border: 1px solid var(--border-light);">
                 </div>
             </div>
         </div>
@@ -157,8 +157,8 @@ export function renderAboutLocation() {
             </div>
             <div style="background: var(--bg-surface); border: 1px solid var(--border-gold); border-radius: var(--radius-lg); padding: 2rem; text-align: center;">
                 <div style="display: flex; flex-direction: column; gap: 1.5rem; align-items: center;">
-                    <img src="http://granguitar.co.kr/images/about/location_con01.gif" alt="오시는길 약도" style="max-width: 100%; height: auto; border-radius: var(--radius-md); border: 1px solid var(--border-light);">
-                    <img src="http://granguitar.co.kr/images/about/location_con02.gif" alt="오시는길 상세안내" style="max-width: 100%; height: auto; border-radius: var(--radius-md); border: 1px solid var(--border-light);">
+                    <img src="images/local_assets/location_con01.gif" alt="오시는길 약도" style="max-width: 100%; height: auto; border-radius: var(--radius-md); border: 1px solid var(--border-light);">
+                    <img src="images/local_assets/location_con02.gif" alt="오시는길 상세안내" style="max-width: 100%; height: auto; border-radius: var(--radius-md); border: 1px solid var(--border-light);">
                 </div>
                 <div style="margin-top: 2rem; background: rgba(0,0,0,0.4); padding: 1.5rem; border-radius: var(--radius-md); border: 1px solid var(--border-light); text-align: left; font-size: 0.95rem; color: var(--text-secondary); line-height: 1.8;">
                     <p style="color: var(--accent-gold); font-weight: 700; margin-bottom: 0.5rem;">📍 그랑기타 주소 및 대표 연락처</p>
@@ -369,9 +369,9 @@ export function renderItemDetail(productId) {
                 <div class="item-spec-maps-box">
                     <h4 style="font-family: var(--font-heading); color: var(--accent-gold); font-size: 1.4rem; margin-bottom: 1.5rem;">그랑기타 정밀 스펙 구조도 (Master Craft Spec & Construction)</h4>
                     <div style="display: flex; flex-direction: column; gap: 1.5rem; align-items: center;">
-                        <img src="http://granguitar.co.kr/images/product/spec_con01.gif" alt="그랑기타 전체스펙 1">
-                        <img src="http://granguitar.co.kr/images/product/spec_con02.gif" alt="그랑기타 전체스펙 2">
-                        <img src="http://granguitar.co.kr/images/product/spec_con03.gif" alt="그랑기타 전체스펙 3">
+                        <img src="images/local_assets/spec_con01.gif" alt="그랑기타 전체스펙 1">
+                        <img src="images/local_assets/spec_con02.gif" alt="그랑기타 전체스펙 2">
+                        <img src="images/local_assets/spec_con03.gif" alt="그랑기타 전체스펙 3">
                     </div>
                 </div>
 
