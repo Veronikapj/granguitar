@@ -501,21 +501,80 @@ export function renderCommunityReview() {
 }
 
 export function renderCommunityFaq() {
+    // Expose tab filter globally if not already defined
+    if (typeof window !== 'undefined' && !window.filterFaqTab) {
+        window.filterFaqTab = function(category, btn) {
+            document.querySelectorAll('.faq-tab-btn').forEach(b => b.classList.remove('active'));
+            if (btn) btn.classList.add('active');
+            
+            const items = document.querySelectorAll('.faq-item');
+            items.forEach(item => {
+                if (category === 'all' || item.getAttribute('data-category') === category) {
+                    item.style.display = 'block';
+                } else {
+                    item.style.display = 'none';
+                }
+            });
+        };
+    }
+
+    const categories = [
+        { id: 'all', label: '전체', count: faqList.length },
+        { id: '배송관련', label: '배송관련', count: faqList.filter(f => f.category === '배송관련').length },
+        { id: '기타관리', label: '기타관리', count: faqList.filter(f => f.category === '기타관리').length },
+        { id: '악기상식', label: '악기상식', count: faqList.filter(f => f.category === '악기상식').length },
+        { id: '교환/환불', label: '교환/환불', count: faqList.filter(f => f.category === '교환/환불').length }
+    ];
+
     return `
         <div class="section">
             <div class="section-header">
-                <span class="section-subtitle">Q & A</span>
-                <h2 class="section-title">자주 묻는 질문과 답변</h2>
+                <span class="section-subtitle">FAQ & HELP</span>
+                <h2 class="section-title">자주하시는 질문 (FAQ)</h2>
+                <p style="color:var(--text-muted); font-size:0.95rem; margin-top:0.4rem;">그랑기타 고객님들께서 가장 자주 문의하시는 질문과 답변입니다.</p>
             </div>
-            <div style="display: flex; flex-direction: column; gap: 1rem; max-width: 800px; margin: 0 auto;">
-                ${faqList.map(item => `
-                    <details style="background: var(--bg-surface); border: 1px solid var(--border-gold); border-radius: var(--radius-md); padding: 1.2rem; cursor: pointer;">
-                        <summary style="font-weight: 700; color: var(--accent-gold-light); font-size: 1.05rem;">Q. ${item.q}</summary>
-                        <p style="margin-top: 1rem; color: var(--text-secondary); font-size: 0.95rem; line-height: 1.7; border-top: 1px solid var(--border-light); padding-top: 0.8rem;">
-                            A. ${item.a}
-                        </p>
-                    </details>
-                `).join('')}
+
+            <div class="faq-wrap">
+                <!-- Category Tabs -->
+                <div class="faq-tab-list">
+                    ${categories.map((c, i) => `
+                        <button class="faq-tab-btn ${i === 0 ? 'active' : ''}" onclick="window.filterFaqTab('${c.id}', this)">
+                            ${c.label} <span class="faq-tab-count">${c.count}</span>
+                        </button>
+                    `).join('')}
+                </div>
+
+                <!-- FAQ Accordion List -->
+                <div class="faq-list">
+                    ${faqList.map((item, index) => `
+                        <details class="faq-item" data-category="${item.category}" ${index === 0 ? 'open' : ''}>
+                            <summary class="faq-summary">
+                                <div class="faq-header-content">
+                                    <span class="faq-category-tag">${item.category}</span>
+                                    <span class="faq-q-title"><span class="q-mark">Q.</span> ${item.q}</span>
+                                </div>
+                                <span class="faq-arrow">▼</span>
+                            </summary>
+                            <div class="faq-answer-wrap">
+                                <div class="faq-a-badge">A</div>
+                                <div class="faq-answer-body">
+                                    ${item.a}
+                                </div>
+                            </div>
+                        </details>
+                    `).join('')}
+                </div>
+
+                <!-- Contact & Help Card -->
+                <div class="faq-contact-card">
+                    <h3>찾으시는 질문이 없으신가요?</h3>
+                    <p>기타 셋업, 주문 제작, 수리 관련 궁금하신 사항은 언제든 편하게 문의해 주십시오.<br>마스터 루티어가 직접 친절하고 상세하게 안내해 드리겠습니다.</p>
+                    <div class="faq-contact-buttons">
+                        <a href="tel:02-3446-9286" class="btn-faq-phone">📞 02-3446-9286 (공방)</a>
+                        <a href="tel:010-6214-4971" class="btn-faq-phone" style="background:#5a3825;">📱 010-6214-4971 (루티어)</a>
+                        <button class="btn-faq-inquiry nav-link" data-route="about_location">📍 공방 위치 안내</button>
+                    </div>
+                </div>
             </div>
         </div>
     `;

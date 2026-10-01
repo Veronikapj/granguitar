@@ -523,16 +523,40 @@ export const sheetMusicList = [
 
 export const faqList = [
     {
-        q: "그랑기타 쇼룸 방문 및 수리 상담 시 예약이 필요한가요?",
-        a: "네, 1:1 맞춤 청음 및 루티어 직접 수리/넥 세팅 컨설팅을 위해 사전 전화(02-3446-9286 / 010-6214-4971) 예약 후 방문해 주시기 바랍니다."
+        id: "faq-0",
+        category: "배송관련",
+        q: "오늘 주문하면 언제 쯤 도착하나요?",
+        a: `주문 당일 오후 3시까지 결제 확인된 주문은 당일 배송됩니다. 배송기간은 1~2일정도 소요됩니다 (도서산간지역 제외).<br><br>주문상태는 로그인 후 <strong>마이페이지 최근 주문내역 상태 항목</strong>에서 확인하실 수 있습니다.<br><br>현재 배송은 로젠택배 서비스를 이용하고 있습니다. 문자로 보내드린 운송장번호를 로젠택배 홈페이지에 입력하여 배송추적이 가능합니다.<br><div style="margin-top:0.8rem;"><a href="http://www.ilogen.com/d2d/delivery/invoice_search.jsp" target="_blank" rel="noopener" style="display:inline-flex; align-items:center; gap:0.4rem; padding:0.5rem 1rem; background:var(--accent-burgundy); color:#ffffff; border-radius:6px; font-size:0.88rem; font-weight:600; text-decoration:none;"><span>📦</span> 로젠택배 배송조회 바로가기</a></div>`
     },
     {
-        q: "기타 수리 및 넥 세팅 기간은 얼마나 걸리나요?",
-        a: "기본 넥 버징 세팅 및 하현주 가공은 당일 처리 가능하며, 전판 크랙 수리나 쉘락 도장 보수는 약 1주일 내외 소요됩니다."
+        id: "faq-1",
+        category: "기타관리",
+        q: "줄은 언제 교체하나요?",
+        a: `클래식기타의 줄은 기타에 매어진 후부터 사용한 시간에 따라 점차 탄력이 감소하여 둔탁한 소리를 내게 됩니다. 일반적으로 사용자께서 이것을 감지했을 때 줄을 교체하시게 됩니다.<br><br>입문자의 경우 아직 이 변화를 느끼기 힘드실 수 있습니다. 이 경우에 한해서 사용한 시간을 기준으로 교체하는 것을 권해드립니다.<br><br><ul style="list-style:disc; margin-left:1.2rem; line-height:1.9;"><li>매일 1시간씩 연습하신다면 교체주기는 <strong>1개월</strong></li><li>매일 30분 연습 시에는 <strong>2개월</strong>입니다.</li><li>전혀 사용하지 않는다고 하더라도 조율이 되어있는 상태라면 <strong>3개월</strong>이면 수명이 다하게 됩니다.</li></ul><br>그리고 손에 땀이 많으신 분에 한해서 연주 후 줄에 묻은 땀을 마른 헝겊 등으로 제거해 주시면 부식에 의해서 수명이 더 짧아지는 것을 예방할 수 있습니다.`
     },
     {
-        q: "택배 발송 시 악기 안전 포장은 어떻게 진행되나요?",
-        a: "기타 전용 하드박스 2중 안전 포장재로 완충 발송하여 전국 어디든 안전하게 전달됩니다."
+        id: "faq-2",
+        category: "기타관리",
+        q: "줄 높이는 얼마가 좋을까요?",
+        a: `통상적으로 네크가 휘지 않았다는 전제 하에 지판의 12플렛 음쇠 상단에서부터 6번줄 하단까지의 거리가 <strong>4mm 이상</strong> 확보되어야 합니다. (1번선의 경우는 3mm)<br>4mm 보다 낮을 경우 특정 음에서 버징이 발생할 수 있습니다.<br><br>큰 무대에서 연주해야 하는 전문연주자의 경우엔 강한 탄현이 필요하므로 버징이 쉽게 발생하기 때문에 12플렛 4~6번줄의 높이를 <strong>4.3mm</strong>까지 높여서 사용하고 있습니다.<br><br>클래식기타를 처음 접하는 입문자와 손 힘이 약한 여성분들의 경우엔 왼손 운지가 편하도록 <strong>3.5mm</strong>까지 낮춰서 편하게 사용하시다 추후 버징이 날 정도로 탄현이 강해지시면, 그때 <strong>그랑기타 공방</strong>에 방문하셔서 바로 줄 높이를 조절하시는 것을 권해 드립니다. 포크기타의 낮은 줄높이에 익숙한 분들도 이와 같은 방법을 권해드립니다.`
+    },
+    {
+        id: "faq-3",
+        category: "악기상식",
+        q: "클래식기타와 통기타의 차이가 뭔가요?",
+        a: `가장 큰 차이점은 클래식기타는 잘 늘어나는 연성의 나일론 줄을, 통기타는 잘 늘어나지 않는 강성의 금속 줄을 사용하는 것입니다. 이 두 줄의 물성이 달라 많은 것에 차이가 발생합니다.<br><br><div style="display:flex; flex-direction:column; gap:0.75rem;"><div style="background:var(--bg-warm); padding:0.8rem 1rem; border-radius:6px; border-left:3px solid var(--accent-burgundy);"><strong>1. 음색의 차이</strong><br><span style="color:var(--text-secondary); font-size:0.92rem;">나일론 줄(클래식기타)은 부드럽고 감미로운 소리를, 금속 줄(통기타)은 시원하고 날카로운 소리가 납니다.</span></div><div style="background:var(--bg-warm); padding:0.8rem 1rem; border-radius:6px; border-left:3px solid var(--accent-burgundy);"><strong>2. 연주감 및 통증</strong><br><span style="color:var(--text-secondary); font-size:0.92rem;">얇은 금속 줄의 통기타를 연주할 때 왼손 손끝이 더 아프게 느껴질 수 있으며, 클래식기타는 왼손 손가락들을 더 많이 벌려야 하므로 왼손 근육에 무리가 갈 수 있습니다.</span></div><div style="background:var(--bg-warm); padding:0.8rem 1rem; border-radius:6px; border-left:3px solid var(--accent-burgundy);"><strong>3. 네크 폭 및 줄 높이</strong><br><span style="color:var(--text-secondary); font-size:0.92rem;">탄현 시 두 줄이 진동하는 폭이 다르기에 줄과 줄 사이의 간격(네크 폭)과 줄과 지판 사이의 간격(줄 높이)이 달라집니다. 나일론 줄의 진폭이 더 크기 때문에 클래식기타 쪽이 네크 폭과 줄 높이가 더 넓고 높습니다.</span></div><div style="background:var(--bg-warm); padding:0.8rem 1rem; border-radius:6px; border-left:3px solid var(--accent-burgundy);"><strong>4. 운지 테크닉</strong><br><span style="color:var(--text-secondary); font-size:0.92rem;">연성의 나일론 줄은 왼손 운지와 테크닉 사용 시에 정확한 지점을 눌러야 선명한 음을 낼 수 있고, 강성의 금속 줄은 약간 벗어나서 잡아도 선명한 음을 얻을 수 있으며 빠른 왼손 테크닉을 구사하기에 용이합니다.</span></div><div style="background:var(--bg-warm); padding:0.8rem 1rem; border-radius:6px; border-left:3px solid var(--accent-burgundy);"><strong>5. 음정 및 음량</strong><br><span style="color:var(--text-secondary); font-size:0.92rem;">음정은 금속 줄이 더 정확하며 더 큰 음량을 가지고 있습니다. 음색은 나일론 줄이 더 풍부하며 다양한 감정들을 표현하기에 적합합니다.</span></div></div>`
+    },
+    {
+        id: "faq-4",
+        category: "배송관련",
+        q: "안전하게 배송되나요?",
+        a: `악기 배송 시 습도와 외부 충격에 영향을 받을 수 있기 때문에 그랑기타에서는 본래의 케이스 뿐만 아니라 내부 비닐포장, 외부 박스 포장(천케이스의 경우 2중 박스포장)으로 악기를 보호하여 발송하므로 안심하고 주문하실 수 있습니다.<br><br>만약 배송 중 악기에 문제가 생겼을 시엔 그랑기타에서 모든 책임을 지고 신속하게 새 악기로 교환해 드립니다.`
+    },
+    {
+        id: "faq-5",
+        category: "교환/환불",
+        q: "물건을 환불 받고 싶어요",
+        a: `제품 하자나 배송시 파손으로 인한 교환 및 환불은 제품 구입 후 <strong>일주일 이내</strong>에 가능하며, 택배비는 그랑기타에서 부담합니다.<br><br>하지만 고객님의 단순변심에 의한 교환 및 환불은 제품 구입 후 <strong>3일 이내</strong>로 하셔야 하며, 택배비는 고객님이 부담하셔야 합니다.<br><br>물건을 보내실 때는 기존의 박스포장 혹은 그에 준하는 외부포장이 되어 있어야 택배발송이 가능합니다.<br><br>교환 및 환불에 관한 자세한 문의는 <a href="tel:02-3446-9286" style="color:var(--accent-burgundy); font-weight:700; text-decoration:underline;">02-3446-9286</a> (<a href="tel:010-6214-4971" style="color:var(--accent-burgundy); font-weight:700; text-decoration:underline;">010-6214-4971</a>)으로 연락 주십시오.`
     }
 ];
 
