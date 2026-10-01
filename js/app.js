@@ -28,6 +28,7 @@ import {
     attachPageEvents 
 } from './components/pages.js?v=11';
 import { productsData } from './data.js?v=11';
+import { seedInitialDataIfNeeded } from './db.js?v=11';
 
 class GranGuitarApp {
     constructor() {
@@ -62,6 +63,7 @@ class GranGuitarApp {
         renderCartModal();
         initAuthModal();
         initBoardModals();
+        seedInitialDataIfNeeded();
 
         // 4. Render initial route from URL hash or fallback to home
         const initialHash = window.location.hash.replace('#', '');

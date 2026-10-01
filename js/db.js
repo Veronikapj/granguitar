@@ -82,17 +82,17 @@ function setLocal(key, val) {
 export async function getReviews() {
     if (isFirestoreAvailable && db) {
         try {
-            const q = query(collection(db, "reviews"), orderBy("createdAt", "desc"));
-            const snapshot = await getDocs(q);
+            const snapshot = await getDocs(collection(db, "reviews"));
             if (!snapshot.empty) {
                 const list = [];
                 snapshot.forEach(docSnap => {
                     list.push({ id: docSnap.id, ...docSnap.data() });
                 });
+                list.sort((a, b) => (b.date || '').localeCompare(a.date || ''));
                 return list;
             }
         } catch (err) {
-            console.warn("Firestore reviews read fallback to local:", err.message);
+            console.warn("Firestore reviews read notice:", err.message);
         }
     }
     // Fallback to local
@@ -159,17 +159,17 @@ export async function deleteReview(id, inputPassword) {
 export async function getQnAPosts() {
     if (isFirestoreAvailable && db) {
         try {
-            const q = query(collection(db, "qna"), orderBy("createdAt", "desc"));
-            const snapshot = await getDocs(q);
+            const snapshot = await getDocs(collection(db, "qna"));
             if (!snapshot.empty) {
                 const list = [];
                 snapshot.forEach(docSnap => {
                     list.push({ id: docSnap.id, ...docSnap.data() });
                 });
+                list.sort((a, b) => (b.date || '').localeCompare(a.date || ''));
                 return list;
             }
         } catch (err) {
-            console.warn("Firestore QnA read fallback to local:", err.message);
+            console.warn("Firestore QnA read notice:", err.message);
         }
     }
     return getLocal("qna", initialQnA);
@@ -235,17 +235,17 @@ export async function deleteQnAPost(id, inputPassword) {
 export async function getAsRequests() {
     if (isFirestoreAvailable && db) {
         try {
-            const q = query(collection(db, "as_requests"), orderBy("createdAt", "desc"));
-            const snapshot = await getDocs(q);
+            const snapshot = await getDocs(collection(db, "as_requests"));
             if (!snapshot.empty) {
                 const list = [];
                 snapshot.forEach(docSnap => {
                     list.push({ id: docSnap.id, ...docSnap.data() });
                 });
+                list.sort((a, b) => (b.date || '').localeCompare(a.date || ''));
                 return list;
             }
         } catch (err) {
-            console.warn("Firestore AS read fallback:", err.message);
+            console.warn("Firestore AS read notice:", err.message);
         }
     }
     return getLocal("as_requests", []);
@@ -257,7 +257,7 @@ export async function addAsRequest({ name, phone, model, type, desc }) {
     const newDoc = {
         ticketId,
         name,
-        phone,
+        phone: phone || "",
         model: model || "미지정",
         type: type || "기타 점검",
         desc,
@@ -292,15 +292,15 @@ export async function getArticles(type = 'all') {
     let list = [];
     if (isFirestoreAvailable && db) {
         try {
-            const q = query(collection(db, "articles"), orderBy("createdAt", "desc"));
-            const snapshot = await getDocs(q);
+            const snapshot = await getDocs(collection(db, "articles"));
             if (!snapshot.empty) {
                 snapshot.forEach(docSnap => {
                     list.push({ id: docSnap.id, ...docSnap.data() });
                 });
+                list.sort((a, b) => (b.date || '').localeCompare(a.date || ''));
             }
         } catch (err) {
-            console.warn("Firestore articles read fallback:", err.message);
+            console.warn("Firestore articles read notice:", err.message);
         }
     }
 
@@ -340,3 +340,38 @@ export async function addArticle({ type, title, author, summary, content }) {
     setLocal("articles", current);
     return { success: true, id: item.id };
 }
+
+// --------------------------------------------------------------------------
+// 5. Cloud Firestore Auto-Seeder (One-time historical seeding)
+// --------------------------------------------------------------------------
+export async function seedInitialDataIfNeeded() {
+    if (!isFirestoreAvailable || !db) return;
+    try {
+        const revSnap = await getDocs(collection(db, "reviews"));
+        if (revSnap.empty) {
+            console.log("🌱 Auto-seeding initial reviews into Cloud Firestore...");
+            for (const r of initialReviews) {
+                await addDoc(collection(db, "reviews"), { ...r, createdAt: serverTimestamp() });
+            }
+        }
+
+        const qnaSnap = await getDocs(collection(db, "qna"));
+        if (qnaSnap.empty) {
+            console.log("🌱 Auto-seeding initial QnA into Cloud Firestore...");
+            for (const q of initialQnA) {
+                await addDoc(collection(db, "qna"), { ...q, createdAt: serverTimestamp() });
+            }
+        }
+
+        const artSnap = await getDocs(collection(db, "articles"));
+        if (artSnap.empty) {
+            console.log("🌱 Auto-seeding initial articles into Cloud Firestore...");
+            for (const a of initialArticles) {
+                await addDoc(collection(db, "articles"), { ...a, createdAt: serverTimestamp() });
+            }
+        }
+    } catch (e) {
+        console.warn("Cloud Firestore auto-seeding notice:", e.message);
+    }
+}
+
