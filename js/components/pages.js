@@ -2,9 +2,9 @@
    GRAN GUITAR - Page Renderer (Original Assets & Full Detail Gallery Images)
    ========================================================================== */
 
-import { productsData, newsArticles, mediaVideos, sheetMusicList, faqList, reviewsList, guitarKnowledgeList } from '../data.js';
-import { addToCart, openModal } from './modals.js';
-import { getReviews, getQnAPosts, getAsRequests, getArticles } from '../db.js';
+import { productsData, newsArticles, mediaVideos, sheetMusicList, faqList, reviewsList, guitarKnowledgeList } from '../data.js?v=55';
+import { addToCart, openModal } from './modals.js?v=55';
+import { getReviews, getQnAPosts, getAsRequests, getArticles } from '../db.js?v=55';
 
 export function renderHome() {
     return `
@@ -692,10 +692,10 @@ export function renderCommunityFaq() {
                 <!-- FAQ Accordion List -->
                 <div class="faq-list">
                     ${faqList.map((item, index) => `
-                        <details class="faq-item" data-category="${item.category}" ${index === 0 ? 'open' : ''}>
+                        <details class="faq-item" data-category="${item.category || '기타관리'}" ${index === 0 ? 'open' : ''}>
                             <summary class="faq-summary">
                                 <div class="faq-header-content">
-                                    <span class="faq-category-tag">${item.category}</span>
+                                    <span class="faq-category-tag">${item.category || '기타관리'}</span>
                                     <span class="faq-q-title"><span class="q-mark">Q.</span> ${item.q}</span>
                                 </div>
                                 <span class="faq-arrow">▼</span>

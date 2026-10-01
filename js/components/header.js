@@ -2,7 +2,7 @@
    GRAN GUITAR - Header & Navigation Controller
    ========================================================================== */
 
-import { openModal } from './modals.js';
+import { openModal } from './modals.js?v=55';
 
 export function initHeader(onNavigate, onSearch) {
     // Navigation routing listeners

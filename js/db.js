@@ -16,7 +16,7 @@ import {
     serverTimestamp 
 } from './firebase.js';
 
-import { reviewsList as initialReviews, newsArticles as initialArticles } from './data.js';
+import { reviewsList as initialReviews, newsArticles as initialArticles } from './data.js?v=55';
 
 // Initial Q&A sample items matching authentic Gran Guitar inquiries
 const initialQnA = [

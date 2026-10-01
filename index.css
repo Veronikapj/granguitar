@@ -2033,6 +2033,18 @@ dialog[open]::backdrop {
     color: #ffffff;
 }
 
+summary {
+    list-style: none !important;
+}
+
+summary::-webkit-details-marker {
+    display: none !important;
+}
+
+summary::-moz-list-bullet {
+    list-style-type: none !important;
+}
+
 /* 6. FAQ Accordion (자주하시는 질문) */
 .faq-classic-list {
     display: flex;

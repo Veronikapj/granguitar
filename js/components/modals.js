@@ -2,7 +2,7 @@
    GRAN GUITAR - Modals & Dialog Manager
    ========================================================================== */
 
-import { productsData } from '../data.js';
+import { productsData } from '../data.js?v=55';
 import { 
     addReview, 
     addQnAPost, 
@@ -10,7 +10,7 @@ import {
     addArticle, 
     deleteReview, 
     deleteQnAPost 
-} from '../db.js';
+} from '../db.js?v=55';
 
 // Local Storage & Cart State
 export const cartState = JSON.parse(localStorage.getItem('granguitar_cart') || '[]');
