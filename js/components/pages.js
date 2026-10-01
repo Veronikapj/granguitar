@@ -454,32 +454,62 @@ export async function renderNewsPage(type) {
     const list = await getArticles(type);
 
     return `
-        <div class="section">
-            <div class="section-header">
-                <span class="section-subtitle">NEWS & ANNOUNCEMENT</span>
-                <h2 class="section-title">${titles[type] || '소식 및 공지'}</h2>
+        <div class="board-container">
+            <!-- Breadcrumbs -->
+            <div class="board-breadcrumb">
+                <a href="#" data-route="home">홈</a> &gt; <span>NEWS &amp; NOTICE</span> &gt; <strong>${titles[type] || '소식 및 공지'}</strong>
             </div>
 
-            <div class="board-top-action">
-                <div class="board-stat-info">등록된 소식 <strong>${list.length}</strong>건</div>
-                <button class="btn-board-write" onclick="window.openWriteArticle('${type}')">📢 새 소식 등록</button>
+            <!-- Main Tabs -->
+            <div class="board-main-tabs">
+                <a href="#news_news" data-route="news_news" class="board-tab-link ${type === 'news' ? 'active' : ''}">📰 뉴스 (News)</a>
+                <a href="#news_notice" data-route="news_notice" class="board-tab-link ${type === 'notice' ? 'active' : ''}">📢 공지사항 (Notice)</a>
+                <a href="#news_concert" data-route="news_concert" class="board-tab-link ${type === 'concert' ? 'active' : ''}">🎻 연주회 소식 (Concerts)</a>
             </div>
 
-            <div style="display: flex; flex-direction: column; gap: 1.5rem;">
-                ${list.length === 0 ? `
-                    <div style="text-align:center; padding:3rem; color:var(--text-muted); background:var(--bg-surface); border-radius:12px; border:1px solid var(--border-gold);">
-                        등록된 게시물이 없습니다.
-                    </div>
-                ` : list.map(article => `
-                    <div style="background: var(--bg-surface); border: 1px solid var(--border-gold); padding: 1.8rem; border-radius: var(--radius-md);">
-                        <div style="display: flex; justify-content: space-between; margin-bottom: 0.5rem;">
-                            <span class="badge-cat" style="position:static;">${(article.type || type).toUpperCase()}</span>
-                            <span style="font-size: 0.85rem; color: var(--text-muted);">${article.date || '최신'}</span>
-                        </div>
-                        <h3 style="font-size: 1.3rem; color: var(--text-primary); margin-bottom: 0.8rem;">${article.title}</h3>
-                        <p style="color: var(--text-secondary); font-size: 0.95rem; line-height: 1.6; white-space: pre-line;">${article.content || article.summary}</p>
-                    </div>
-                `).join('')}
+            <div class="board-action-bar">
+                <div class="board-stat-info">등록된 게시물 <strong>${list.length}</strong>건</div>
+                <button class="btn-board-primary" onclick="window.openWriteArticle('${type}')">📢 새 소식 등록</button>
+            </div>
+
+            <div class="board-table-wrap">
+                <table class="board-table">
+                    <thead>
+                        <tr>
+                            <th style="width: 70px;">번호</th>
+                            <th style="width: 110px;">구분</th>
+                            <th>제목</th>
+                            <th style="width: 120px;">작성자</th>
+                            <th style="width: 110px;">작성일</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        ${list.length === 0 ? `
+                            <tr>
+                                <td colspan="5" style="padding: 3rem 1rem; color: var(--text-muted);">
+                                    등록된 게시물이 없습니다.
+                                </td>
+                            </tr>
+                        ` : list.map((article, idx) => `
+                            <tr>
+                                <td>${idx === 0 ? '<span class="badge-notice">공지</span>' : (list.length - idx)}</td>
+                                <td><span class="badge-category-mini">${(article.type || type).toUpperCase()}</span></td>
+                                <td class="subject">
+                                    <details style="cursor: pointer;">
+                                        <summary style="outline: none; list-style: none; font-weight: 600; color: #1e1711;">
+                                            ${article.title} <span style="font-size:0.75rem; color:#888; font-weight:normal; margin-left:0.4rem;">[내용보기 ▼]</span>
+                                        </summary>
+                                        <div style="margin-top: 0.8rem; padding: 1.2rem; background: #faf8f5; border-radius: 8px; font-weight: 400; color: #382a20; line-height: 1.8; white-space: pre-line; border: 1px solid #eee7dc; text-align: left;">
+                                            ${article.content || article.summary}
+                                        </div>
+                                    </details>
+                                </td>
+                                <td>${article.author || '그랑기타'}</td>
+                                <td style="color: #8c7a6b; font-size: 0.85rem;">${article.date || '최신'}</td>
+                            </tr>
+                        `).join('')}
+                    </tbody>
+                </table>
             </div>
         </div>
     `;
@@ -490,33 +520,50 @@ export async function renderCommunityReview() {
     const reviews = await getReviews();
 
     return `
-        <div class="section">
-            <div class="section-header">
-                <span class="section-subtitle">USER REVIEWS</span>
-                <h2 class="section-title">체험단 및 연주자 리뷰</h2>
-                <p style="color:var(--text-muted); font-size:0.95rem; margin-top:0.4rem;">그랑기타를 직접 연주해 보신 회원님들의 생생한 리뷰입니다.</p>
+        <div class="board-container">
+            <!-- Breadcrumbs -->
+            <div class="board-breadcrumb">
+                <a href="#" data-route="home">홈</a> &gt; <span>커뮤니티</span> &gt; <strong>체험단 및 이용후기</strong>
             </div>
 
-            <div class="board-top-action">
+            <!-- Main Tabs -->
+            <div class="board-main-tabs">
+                <a href="#community_review" data-route="community_review" class="board-tab-link active">⭐ 체험단 및 연주자 리뷰</a>
+                <a href="#community_qna" data-route="community_qna" class="board-tab-link">💬 1:1 질문과 답변</a>
+                <a href="#community_faq" data-route="community_faq" class="board-tab-link">❓ 자주하시는 질문</a>
+            </div>
+
+            <div class="board-action-bar">
                 <div class="board-stat-info">전체 리뷰 <strong>${reviews.length}</strong>건 (평균 평점: ★ 4.9)</div>
-                <button class="btn-board-write" onclick="document.getElementById('write-review-modal').showModal()">✍️ 후기 작성하기</button>
+                <button class="btn-board-primary" onclick="document.getElementById('write-review-modal').showModal()">✍️ 이용후기 작성하기</button>
             </div>
 
-            <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 1.5rem;">
-                ${reviews.map(r => `
-                    <div class="review-card-item">
-                        <div>
-                            <div class="review-card-header">
-                                <span class="review-stars">${'★'.repeat(r.rating || 5)}${'☆'.repeat(5 - (r.rating || 5))}</span>
-                                <span class="review-date">${r.date || '최근'}</span>
-                            </div>
-                            <h4 class="review-title-text">${r.title}</h4>
-                            <span class="review-model-tag">소장 모델: ${r.model || '그랑기타 수제기타'}</span>
-                            <p class="review-body-text">${r.content}</p>
+            <div class="board-gallery-wrap">
+                ${reviews.length === 0 ? `
+                    <div style="text-align:center; padding:3rem; color:var(--text-muted); background:#ffffff; border-radius:10px; border:1px solid rgba(184, 134, 11, 0.2);">
+                        등록된 리뷰가 없습니다. 첫 연주 후기를 남겨보세요!
+                    </div>
+                ` : reviews.map(r => `
+                    <div class="board-gallery-item">
+                        <div class="gallery-thumb-box">
+                            <img src="${r.imageUrl || 'images/bg_workshop.jpg'}" alt="그랑기타 리뷰 사진" onerror="this.src='images/bg_workshop.jpg'">
                         </div>
-                        <div class="review-card-bottom">
-                            <span>작성자: <strong>${r.author}</strong></span>
-                            <button class="btn-post-del" onclick="window.handleDeleteReview('${r.id}')">삭제</button>
+                        <div class="gallery-details-box">
+                            <div>
+                                <div class="gallery-item-header">
+                                    <div style="display:flex; align-items:center;">
+                                        <span class="gallery-star-rating">${'★'.repeat(r.rating || 5)}${'☆'.repeat(5 - (r.rating || 5))}</span>
+                                        <span class="gallery-model-pill">${r.model || '그랑기타 수제기타'}</span>
+                                    </div>
+                                    <span style="font-size:0.82rem; color:#8c7a6b;">${r.date || '최근'}</span>
+                                </div>
+                                <h3 class="gallery-item-title">${r.title}</h3>
+                                <p class="gallery-item-text">${r.content}</p>
+                            </div>
+                            <div class="gallery-item-footer">
+                                <span>작성자: <strong>${r.author}</strong></span>
+                                <button class="btn-del-action" onclick="window.handleDeleteReview('${r.id}')">삭제</button>
+                            </div>
                         </div>
                     </div>
                 `).join('')}
@@ -529,21 +576,27 @@ export async function renderCommunityQnA() {
     const qnaList = await getQnAPosts();
 
     return `
-        <div class="section">
-            <div class="section-header">
-                <span class="section-subtitle">Q & A BOARD</span>
-                <h2 class="section-title">1:1 질문과 답변</h2>
-                <p style="color:var(--text-muted); font-size:0.95rem; margin-top:0.4rem;">악기 주문제작, 수리 및 세팅 등 궁금하신 점을 남겨주시면 마스터 루티어가 직접 답변해 드립니다.</p>
+        <div class="board-container">
+            <!-- Breadcrumbs -->
+            <div class="board-breadcrumb">
+                <a href="#" data-route="home">홈</a> &gt; <span>커뮤니티</span> &gt; <strong>1:1 질문과 답변</strong>
             </div>
 
-            <div class="board-top-action">
-                <div class="board-stat-info">전체 문의 <strong>${qnaList.length}</strong>건</div>
-                <button class="btn-board-write" onclick="document.getElementById('write-qna-modal').showModal()">💬 1:1 질문 작성하기</button>
+            <!-- Main Tabs -->
+            <div class="board-main-tabs">
+                <a href="#community_faq" data-route="community_faq" class="board-tab-link">❓ 자주하시는 질문 (FAQ)</a>
+                <a href="#community_qna" data-route="community_qna" class="board-tab-link active">💬 1:1 질문과 답변 (Q&A)</a>
+                <a href="#community_review" data-route="community_review" class="board-tab-link">⭐ 체험단/후기</a>
+            </div>
+
+            <div class="board-action-bar">
+                <div class="board-stat-info">전체 질문 <strong>${qnaList.length}</strong>건 (마스터 루티어가 직접 답변을 등록합니다)</div>
+                <button class="btn-board-primary" onclick="document.getElementById('write-qna-modal').showModal()">💬 1:1 질문 작성하기</button>
             </div>
 
             <div class="qna-list-wrap">
                 ${qnaList.length === 0 ? `
-                    <div style="text-align:center; padding:3rem; color:var(--text-muted); background:var(--bg-surface); border-radius:12px; border:1px solid var(--border-gold);">
+                    <div style="text-align:center; padding:3rem; color:var(--text-muted); background:#ffffff; border-radius:10px; border:1px solid rgba(184, 134, 11, 0.2);">
                         등록된 문의글이 없습니다. 첫 질문을 남겨보세요!
                     </div>
                 ` : qnaList.map(item => `
@@ -613,11 +666,17 @@ export function renderCommunityFaq() {
     ];
 
     return `
-        <div class="section">
-            <div class="section-header">
-                <span class="section-subtitle">FAQ & HELP</span>
-                <h2 class="section-title">자주하시는 질문 (FAQ)</h2>
-                <p style="color:var(--text-muted); font-size:0.95rem; margin-top:0.4rem;">그랑기타 고객님들께서 가장 자주 문의하시는 질문과 답변입니다.</p>
+        <div class="board-container">
+            <!-- Breadcrumbs -->
+            <div class="board-breadcrumb">
+                <a href="#" data-route="home">홈</a> &gt; <span>커뮤니티</span> &gt; <strong>자주하시는 질문 (FAQ)</strong>
+            </div>
+
+            <!-- Main Tabs -->
+            <div class="board-main-tabs">
+                <a href="#community_faq" data-route="community_faq" class="board-tab-link active">❓ 자주하시는 질문 (FAQ)</a>
+                <a href="#community_qna" data-route="community_qna" class="board-tab-link">💬 1:1 질문과 답변 (Q&A)</a>
+                <a href="#community_review" data-route="community_review" class="board-tab-link">⭐ 체험단/후기</a>
             </div>
 
             <div class="faq-wrap">

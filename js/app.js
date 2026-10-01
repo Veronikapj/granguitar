@@ -2,14 +2,14 @@
    GRAN GUITAR - Main Web Application Entry Point (Router & Standalone Item Page)
    ========================================================================== */
 
-import { initHeader } from './components/header.js?v=11';
+import { initHeader } from './components/header.js?v=50';
 import { 
     initPopups, 
     updateCartBadge, 
     renderCartModal, 
     initAuthModal,
     initBoardModals 
-} from './components/modals.js?v=11';
+} from './components/modals.js?v=50';
 import { 
     renderHome, 
     renderAboutCompany, 
@@ -26,9 +26,9 @@ import {
     renderSupportAs, 
     renderSupportGuitar, 
     attachPageEvents 
-} from './components/pages.js?v=11';
-import { productsData } from './data.js?v=11';
-import { seedInitialDataIfNeeded } from './db.js?v=11';
+} from './components/pages.js?v=50';
+import { productsData } from './data.js?v=50';
+import { seedInitialDataIfNeeded } from './db.js?v=50';
 
 class GranGuitarApp {
     constructor() {
