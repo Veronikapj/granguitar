@@ -2754,10 +2754,17 @@ summary::-moz-list-bullet {
 /* ==========================================================================
    GOOGLE AUTH & USER PROFILE STYLES
    ========================================================================== */
+#auth-modal {
+    max-width: 450px !important;
+    width: 90% !important;
+    margin: auto !important;
+}
+
 .auth-box {
-    padding: 2.2rem 2.2rem 2.5rem !important;
-    max-width: 440px;
-    width: 100%;
+    padding: 2.2rem 2rem 2.2rem !important;
+    width: 100% !important;
+    max-width: 100% !important;
+    box-sizing: border-box !important;
 }
 
 .auth-tabs {
