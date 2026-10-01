@@ -133,7 +133,6 @@ export function updateAuthUI(user) {
             `;
         } else {
             userActionsContainer.innerHTML = `
-                <button class="btn-text" id="btn-open-join">JOIN</button>
                 <button class="btn-text highlight" id="btn-open-login">LOGIN</button>
                 <button class="btn-cart" id="btn-open-cart" aria-label="장바구니">
                     🛒 <span id="cart-count" class="cart-badge">${count}</span>
@@ -146,17 +145,6 @@ export function updateAuthUI(user) {
         if (cartBtn) {
             cartBtn.addEventListener('click', () => {
                 document.getElementById('cart-modal')?.showModal();
-            });
-        }
-
-        const joinBtn = userActionsContainer.querySelector('#btn-open-join');
-        if (joinBtn) {
-            joinBtn.addEventListener('click', () => {
-                const modal = document.getElementById('auth-modal');
-                if (modal) {
-                    modal.showModal();
-                    document.getElementById('tab-join-btn')?.click();
-                }
             });
         }
 
