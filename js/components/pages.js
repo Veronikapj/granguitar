@@ -546,7 +546,7 @@ export async function renderCommunityReview() {
                 ` : reviews.map(r => `
                     <div class="board-gallery-item">
                         <div class="gallery-thumb-box">
-                            <img src="${r.imageUrl || 'images/bg_workshop.jpg'}" alt="그랑기타 리뷰 사진" onerror="this.src='images/bg_workshop.jpg'">
+                            <img src="${r.imageUrl || 'images/luthier_workshop.jpg'}" alt="그랑기타 리뷰 사진" onerror="this.src='images/luthier_workshop.jpg'">
                         </div>
                         <div class="gallery-details-box">
                             <div>
