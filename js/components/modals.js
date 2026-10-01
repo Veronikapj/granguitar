@@ -11,6 +11,7 @@ import {
     deleteReview, 
     deleteQnAPost 
 } from '../db.js?v=55';
+import { loginWithGoogle, logoutUser, getCurrentUser } from '../auth.js?v=56';
 
 // Local Storage & Cart State
 export const cartState = JSON.parse(localStorage.getItem('granguitar_cart') || '[]');
@@ -218,18 +219,51 @@ export function initAuthModal() {
         tabLogin?.classList.add('active');
         tabJoin?.classList.remove('active');
         authContent.innerHTML = `
+            <div class="auth-social-box">
+                <button type="button" id="btn-google-login" class="btn-google-signin">
+                    <svg class="google-icon" viewBox="0 0 24 24" width="20" height="20">
+                        <path fill="#4285F4" d="M23.745 12.27c0-.7-.06-1.4-.19-2.07H12v4.51h6.6c-.29 1.52-1.14 2.8-2.4 3.65v3.03h3.88c2.27-2.09 3.66-5.17 3.66-9.12z"/>
+                        <path fill="#34A853" d="M12 24c3.24 0 5.95-1.08 7.93-2.91l-3.88-3.03c-1.08.72-2.45 1.16-4.05 1.16-3.12 0-5.77-2.1-6.72-4.93H1.25v3.13C3.27 21.43 7.33 24 12 24z"/>
+                        <path fill="#FBBC05" d="M5.28 14.29c-.25-.72-.38-1.49-.38-2.29s.13-1.57.38-2.29V6.58H1.25C.45 8.18 0 9.99 0 12s.45 3.82 1.25 5.42l4.03-3.13z"/>
+                        <path fill="#EA4335" d="M12 4.75c1.77 0 3.35.61 4.6 1.8l3.42-3.42C17.95 1.19 15.24 0 12 0 7.33 0 3.27 2.57 1.25 6.58l4.03 3.13c.95-2.83 3.6-4.96 6.72-4.96z"/>
+                    </svg>
+                    <span>Google 계정으로 계속하기</span>
+                </button>
+            </div>
+
+            <div class="auth-divider">
+                <span>또는 이메일 로그인</span>
+            </div>
+
             <form id="login-form" class="modal-form">
                 <div class="form-group">
                     <label>아이디 (E-mail)</label>
-                    <input type="text" required placeholder="user@example.com">
+                    <input type="email" id="login-email" required placeholder="user@example.com" value="guest@granguitar.co.kr">
                 </div>
                 <div class="form-group">
                     <label>비밀번호</label>
-                    <input type="password" required placeholder="••••••••">
+                    <input type="password" id="login-pw" required placeholder="••••••••" value="12345678">
                 </div>
-                <button type="submit" class="btn-primary full-width">로그인</button>
+                <button type="submit" class="btn-primary full-width">일반 로그인</button>
             </form>
         `;
+
+        document.getElementById('btn-google-login')?.addEventListener('click', async () => {
+            const btn = document.getElementById('btn-google-login');
+            try {
+                if (btn) btn.disabled = true;
+                const res = await loginWithGoogle();
+                if (res.success) {
+                    alert(`${res.user.displayName}님, 그랑기타 회원으로 로그인되었습니다!`);
+                    document.getElementById('auth-modal')?.close();
+                }
+            } catch (err) {
+                alert(`Google 로그인 오류: ${err.message}`);
+            } finally {
+                if (btn) btn.disabled = false;
+            }
+        });
+
         document.getElementById('login-form')?.addEventListener('submit', (e) => {
             e.preventDefault();
             alert('로그인되었습니다. 그랑기타 회원으로 환영합니다!');
@@ -242,6 +276,22 @@ export function initAuthModal() {
         tabJoin?.classList.add('active');
         tabLogin?.classList.remove('active');
         authContent.innerHTML = `
+            <div class="auth-social-box">
+                <button type="button" id="btn-google-join" class="btn-google-signin">
+                    <svg class="google-icon" viewBox="0 0 24 24" width="20" height="20">
+                        <path fill="#4285F4" d="M23.745 12.27c0-.7-.06-1.4-.19-2.07H12v4.51h6.6c-.29 1.52-1.14 2.8-2.4 3.65v3.03h3.88c2.27-2.09 3.66-5.17 3.66-9.12z"/>
+                        <path fill="#34A853" d="M12 24c3.24 0 5.95-1.08 7.93-2.91l-3.88-3.03c-1.08.72-2.45 1.16-4.05 1.16-3.12 0-5.77-2.1-6.72-4.93H1.25v3.13C3.27 21.43 7.33 24 12 24z"/>
+                        <path fill="#FBBC05" d="M5.28 14.29c-.25-.72-.38-1.49-.38-2.29s.13-1.57.38-2.29V6.58H1.25C.45 8.18 0 9.99 0 12s.45 3.82 1.25 5.42l4.03-3.13z"/>
+                        <path fill="#EA4335" d="M12 4.75c1.77 0 3.35.61 4.6 1.8l3.42-3.42C17.95 1.19 15.24 0 12 0 7.33 0 3.27 2.57 1.25 6.58l4.03 3.13c.95-2.83 3.6-4.96 6.72-4.96z"/>
+                    </svg>
+                    <span>Google 계정으로 1초 간편가입</span>
+                </button>
+            </div>
+
+            <div class="auth-divider">
+                <span>또는 일반 회원가입 정보 입력</span>
+            </div>
+
             <form id="join-form" class="modal-form">
                 <div class="form-group">
                     <label>성함 *</label>
@@ -262,6 +312,23 @@ export function initAuthModal() {
                 <button type="submit" class="btn-primary full-width">그랑기타 회원가입 완료</button>
             </form>
         `;
+
+        document.getElementById('btn-google-join')?.addEventListener('click', async () => {
+            const btn = document.getElementById('btn-google-join');
+            try {
+                if (btn) btn.disabled = true;
+                const res = await loginWithGoogle();
+                if (res.success) {
+                    alert(`${res.user.displayName}님, 그랑기타 회원으로 가입 및 로그인되었습니다!`);
+                    document.getElementById('auth-modal')?.close();
+                }
+            } catch (err) {
+                alert(`Google 가입 오류: ${err.message}`);
+            } finally {
+                if (btn) btn.disabled = false;
+            }
+        });
+
         document.getElementById('join-form')?.addEventListener('submit', (e) => {
             e.preventDefault();
             alert('그랑기타 회원가입이 성공적으로 완료되었습니다!');

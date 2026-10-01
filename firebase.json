@@ -27,5 +27,13 @@
   "firestore": {
     "rules": "firestore.rules",
     "indexes": "firestore.indexes.json"
+  },
+  "auth": {
+    "providers": {
+      "googleSignIn": {
+        "oAuthBrandDisplayName": "그랑기타 Gran Guitar",
+        "supportEmail": "sherlockpj@hotmail.com"
+      }
+    }
   }
 }

@@ -18,6 +18,14 @@ import {
     onSnapshot 
 } from 'https://www.gstatic.com/firebasejs/10.13.2/firebase-firestore.js';
 
+import { 
+    getAuth, 
+    signInWithPopup, 
+    GoogleAuthProvider, 
+    signOut, 
+    onAuthStateChanged 
+} from 'https://www.gstatic.com/firebasejs/10.13.2/firebase-auth.js';
+
 export const firebaseConfig = {
     projectId: "granguitar-web-app",
     appId: "1:153904868122:web:7b0d743750c7a4735d1aa3",
@@ -29,13 +37,17 @@ export const firebaseConfig = {
 
 let app = null;
 let db = null;
+let auth = null;
 let isFirestoreAvailable = false;
+let isAuthAvailable = false;
 
 try {
     app = initializeApp(firebaseConfig);
     db = getFirestore(app);
     isFirestoreAvailable = true;
-    console.log("🔥 Firebase initialized successfully on project granguitar-web-app");
+    auth = getAuth(app);
+    isAuthAvailable = true;
+    console.log("🔥 Firebase App, Firestore & Auth initialized successfully on granguitar-web-app");
 } catch (err) {
     console.warn("⚠️ Firebase initialization error:", err);
 }
@@ -43,7 +55,9 @@ try {
 export { 
     app, 
     db, 
-    isFirestoreAvailable, 
+    auth,
+    isFirestoreAvailable,
+    isAuthAvailable,
     collection, 
     addDoc, 
     getDocs, 
@@ -54,5 +68,9 @@ export {
     orderBy, 
     limit, 
     serverTimestamp,
-    onSnapshot 
+    onSnapshot,
+    signInWithPopup,
+    GoogleAuthProvider,
+    signOut,
+    onAuthStateChanged
 };
