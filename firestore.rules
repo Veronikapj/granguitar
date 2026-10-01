@@ -1,0 +1,31 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    // Reviews collection (체험단 및 연주자 리뷰)
+    match /reviews/{document} {
+      allow read: if true;
+      allow create: if request.resource.data.title is string && request.resource.data.content is string;
+      allow update, delete: if true;
+    }
+
+    // Q&A collection (1:1 질문과 답변)
+    match /qna/{document} {
+      allow read: if true;
+      allow create: if request.resource.data.title is string && request.resource.data.content is string;
+      allow update, delete: if true;
+    }
+
+    // A/S Requests collection (수리 및 점검 신청)
+    match /as_requests/{document} {
+      allow read: if true;
+      allow create: if request.resource.data.name is string;
+      allow update, delete: if true;
+    }
+
+    // Articles collection (공지사항 / 뉴스 / 연주회)
+    match /articles/{document} {
+      allow read: if true;
+      allow create, update, delete: if true;
+    }
+  }
+}

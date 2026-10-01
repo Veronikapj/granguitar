@@ -125,7 +125,8 @@
                             <div class="snb-dropdown">
                                 <ul>
                                     <li><a href="#" data-route="community_review">체험단 리뷰</a></li>
-                                    <li><a href="#" data-route="community_faq">질문과 답변</a></li>
+                                    <li><a href="#" data-route="community_qna">질문과 답변 (Q&A)</a></li>
+                                    <li><a href="#" data-route="community_faq">자주하시는 질문 (FAQ)</a></li>
                                     <li><a href="#" data-route="community_movie">연주 동영상</a></li>
                                     <li><a href="#" data-route="community_music">악보</a></li>
                                 </ul>
@@ -297,7 +298,139 @@
         </div>
     </dialog>
 
+    <!-- Write Review Modal -->
+    <dialog id="write-review-modal" class="app-modal" closedby="any">
+        <div class="modal-content-wrapper">
+            <div class="modal-header">
+                <h2>✍️ 체험단 및 이용후기 작성</h2>
+                <button class="modal-close" onclick="document.getElementById('write-review-modal').close()">×</button>
+            </div>
+            <form id="review-form" class="modal-form">
+                <div class="form-group">
+                    <label for="rev-title">후기 제목 *</label>
+                    <input type="text" id="rev-title" required placeholder="예: 100호 구입 후 1년 솔직 후기입니다">
+                </div>
+                <div class="form-row-2">
+                    <div class="form-group">
+                        <label for="rev-author">작성자명 *</label>
+                        <input type="text" id="rev-author" required placeholder="홍길동 회원님">
+                    </div>
+                    <div class="form-group">
+                        <label for="rev-password">비밀번호(삭제용) *</label>
+                        <input type="password" id="rev-password" required placeholder="숫자 4자리">
+                    </div>
+                </div>
+                <div class="form-row-2">
+                    <div class="form-group">
+                        <label for="rev-model">소장 / 연주 모델명</label>
+                        <input type="text" id="rev-model" placeholder="예: 그랑기타 NO. 100호">
+                    </div>
+                    <div class="form-group">
+                        <label for="rev-rating">만족도 평점</label>
+                        <select id="rev-rating">
+                            <option value="5">★★★★★ (5점 만점 - 대만족)</option>
+                            <option value="4">★★★★☆ (4점 - 만족)</option>
+                            <option value="3">★★★☆☆ (3점 - 보통)</option>
+                            <option value="2">★★☆☆☆ (2점 - 아쉬움)</option>
+                            <option value="1">★☆☆☆☆ (1점)</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="rev-content">상세 후기 내용 *</label>
+                    <textarea id="rev-content" rows="5" required placeholder="악기의 울림, 넥 그립감, 음색 등 연주 경험을 솔직하게 나눠주세요."></textarea>
+                </div>
+                <button type="submit" class="btn-primary full-width">리뷰 등록하기</button>
+            </form>
+        </div>
+    </dialog>
+
+    <!-- Write Q&A Modal -->
+    <dialog id="write-qna-modal" class="app-modal" closedby="any">
+        <div class="modal-content-wrapper">
+            <div class="modal-header">
+                <h2>💬 1:1 질문과 답변 (Q&A) 작성</h2>
+                <button class="modal-close" onclick="document.getElementById('write-qna-modal').close()">×</button>
+            </div>
+            <form id="qna-form" class="modal-form">
+                <div class="form-group">
+                    <label for="qna-title">질문 제목 *</label>
+                    <input type="text" id="qna-title" required placeholder="질문하실 내용을 간략히 적어주세요">
+                </div>
+                <div class="form-row-2">
+                    <div class="form-group">
+                        <label for="qna-category">질문 분류</label>
+                        <select id="qna-category">
+                            <option value="기타제작">수제 기타 주문 제작</option>
+                            <option value="수리/셋업">수리 및 정밀 셋업</option>
+                            <option value="주문/배송">구매 및 배송 관련</option>
+                            <option value="일반문의">기타 일반 문의</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="qna-author">작성자명 *</label>
+                        <input type="text" id="qna-author" required placeholder="성함 또는 닉네임">
+                    </div>
+                </div>
+                <div class="form-row-2">
+                    <div class="form-group">
+                        <label for="qna-password">비밀번호(확인/삭제용) *</label>
+                        <input type="password" id="qna-password" required placeholder="비밀번호 입력">
+                    </div>
+                    <div class="form-group" style="display:flex; align-items:center; margin-top:1.8rem; gap:0.5rem;">
+                        <input type="checkbox" id="qna-secret" style="width:18px; height:18px;">
+                        <label for="qna-secret" style="margin:0; cursor:pointer;">🔒 비밀글로 등록 (관리자만 열람)</label>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="qna-content">질문 내용 *</label>
+                    <textarea id="qna-content" rows="5" required placeholder="궁금하신 점을 상세히 남겨주시면 마스터 루티어가 직접 답변해 드립니다."></textarea>
+                </div>
+                <button type="submit" class="btn-primary full-width">질문 등록하기</button>
+            </form>
+        </div>
+    </dialog>
+
+    <!-- Write News/Notice Modal -->
+    <dialog id="write-article-modal" class="app-modal" closedby="any">
+        <div class="modal-content-wrapper">
+            <div class="modal-header">
+                <h2>📢 새 소식 / 공지사항 등록 (관리자)</h2>
+                <button class="modal-close" onclick="document.getElementById('write-article-modal').close()">×</button>
+            </div>
+            <form id="article-form" class="modal-form">
+                <div class="form-row-2">
+                    <div class="form-group">
+                        <label for="art-type">게시판 구분 *</label>
+                        <select id="art-type">
+                            <option value="news">뉴스 (News)</option>
+                            <option value="notice">공지사항 (Notice)</option>
+                            <option value="concert">연주회 소식 (Concerts)</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="art-author">작성자</label>
+                        <input type="text" id="art-author" value="그랑기타 관리자" required>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="art-title">제목 *</label>
+                    <input type="text" id="art-title" required placeholder="공지 및 소식 제목을 입력하세요">
+                </div>
+                <div class="form-group">
+                    <label for="art-summary">한 줄 요약</label>
+                    <input type="text" id="art-summary" placeholder="목록에 노출될 간단한 요약문">
+                </div>
+                <div class="form-group">
+                    <label for="art-content">상세 본문 내용 *</label>
+                    <textarea id="art-content" rows="6" required placeholder="공지사항 또는 연주회 상세 안내 내용을 입력하세요."></textarea>
+                </div>
+                <button type="submit" class="btn-primary full-width">소식 등록하기</button>
+            </form>
+        </div>
+    </dialog>
+
     <!-- JavaScript Modules -->
-    <script type="module" src="js/app.js?v=28"></script>
+    <script type="module" src="js/app.js?v=29"></script>
 </body>
 </html>

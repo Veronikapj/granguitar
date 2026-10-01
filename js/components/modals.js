@@ -3,6 +3,14 @@
    ========================================================================== */
 
 import { productsData } from '../data.js';
+import { 
+    addReview, 
+    addQnAPost, 
+    addAsRequest, 
+    addArticle, 
+    deleteReview, 
+    deleteQnAPost 
+} from '../db.js';
 
 // Local Storage & Cart State
 export const cartState = JSON.parse(localStorage.getItem('granguitar_cart') || '[]');
@@ -266,3 +274,163 @@ export function initAuthModal() {
 
     renderLogin();
 }
+
+// Board Modals & Form Submission Manager
+export function initBoardModals() {
+    // 1. Review Form Submission
+    const reviewForm = document.getElementById('review-form');
+    if (reviewForm) {
+        reviewForm.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const title = document.getElementById('rev-title')?.value.trim();
+            const author = document.getElementById('rev-author')?.value.trim();
+            const password = document.getElementById('rev-password')?.value.trim();
+            const model = document.getElementById('rev-model')?.value.trim();
+            const rating = document.getElementById('rev-rating')?.value;
+            const content = document.getElementById('rev-content')?.value.trim();
+
+            if (!title || !author || !password || !content) {
+                alert('필수 입력 항목을 모두 작성해 주세요.');
+                return;
+            }
+
+            const res = await addReview({ title, model, rating, author, password, content });
+            if (res.success) {
+                alert('이용후기가 성공적으로 등록되었습니다!');
+                document.getElementById('write-review-modal')?.close();
+                reviewForm.reset();
+                if (window.app) {
+                    window.app.navigate('community_review', false);
+                }
+            } else {
+                alert('등록 중 오류가 발생했습니다. 다시 시도해 주세요.');
+            }
+        });
+    }
+
+    // 2. Q&A Form Submission
+    const qnaForm = document.getElementById('qna-form');
+    if (qnaForm) {
+        qnaForm.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const title = document.getElementById('qna-title')?.value.trim();
+            const category = document.getElementById('qna-category')?.value;
+            const author = document.getElementById('qna-author')?.value.trim();
+            const password = document.getElementById('qna-password')?.value.trim();
+            const isSecret = document.getElementById('qna-secret')?.checked;
+            const content = document.getElementById('qna-content')?.value.trim();
+
+            if (!title || !author || !password || !content) {
+                alert('필수 입력 항목을 모두 작성해 주세요.');
+                return;
+            }
+
+            const res = await addQnAPost({ category, title, author, password, isSecret, content });
+            if (res.success) {
+                alert('1:1 질문이 성공적으로 접수되었습니다. 마스터 루티어가 직접 확인 후 정성껏 답변을 남겨드리겠습니다.');
+                document.getElementById('write-qna-modal')?.close();
+                qnaForm.reset();
+                if (window.app) {
+                    window.app.navigate('community_qna', false);
+                }
+            } else {
+                alert('접수 중 오류가 발생했습니다. 다시 시도해 주세요.');
+            }
+        });
+    }
+
+    // 3. A/S Request Form Submission
+    const asForm = document.getElementById('as-form');
+    if (asForm) {
+        asForm.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const name = document.getElementById('as-name')?.value.trim();
+            const model = document.getElementById('as-model')?.value.trim();
+            const type = document.getElementById('as-type')?.value;
+            const desc = document.getElementById('as-desc')?.value.trim();
+
+            if (!name) {
+                alert('성함 및 연락처를 입력해 주세요.');
+                return;
+            }
+
+            const res = await addAsRequest({ name, model, type, desc });
+            if (res.success) {
+                alert(`A/S 수리 및 세팅 신청이 정상 접수되었습니다!\n\n접수번호: ${res.ticketId}\n공방 루티어가 접수 내용을 확인 후 연락드리겠습니다.`);
+                document.getElementById('as-request-modal')?.close();
+                asForm.reset();
+                if (window.app) {
+                    window.app.navigate('support_as', false);
+                }
+            } else {
+                alert('접수 중 오류가 발생했습니다. 다시 시도해 주세요.');
+            }
+        });
+    }
+
+    // 4. News / Article Form Submission
+    const articleForm = document.getElementById('article-form');
+    if (articleForm) {
+        articleForm.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const type = document.getElementById('art-type')?.value;
+            const author = document.getElementById('art-author')?.value.trim();
+            const title = document.getElementById('art-title')?.value.trim();
+            const summary = document.getElementById('art-summary')?.value.trim();
+            const content = document.getElementById('art-content')?.value.trim();
+
+            if (!title || !content) {
+                alert('제목과 내용을 입력해 주세요.');
+                return;
+            }
+
+            const res = await addArticle({ type, author, title, summary, content });
+            if (res.success) {
+                alert('새 소식이 성공적으로 등록되었습니다.');
+                document.getElementById('write-article-modal')?.close();
+                articleForm.reset();
+                if (window.app) {
+                    window.app.navigate(`news_${type}`, false);
+                }
+            } else {
+                alert('소식 등록 중 오류가 발생했습니다.');
+            }
+        });
+    }
+
+    // Global Action Helpers
+    window.handleDeleteReview = async function(id) {
+        const pw = prompt('리뷰 작성 시 설정하신 비밀번호를 입력해 주세요.');
+        if (!pw) return;
+        const res = await deleteReview(id, pw);
+        if (res.success) {
+            alert('리뷰가 삭제되었습니다.');
+            if (window.app) window.app.navigate('community_review', false);
+        } else {
+            alert(res.error || '비밀번호가 일치하지 않습니다.');
+        }
+    };
+
+    window.handleDeleteQnA = async function(id) {
+        const pw = prompt('질문 등록 시 설정하신 비밀번호를 입력해 주세요.');
+        if (!pw) return;
+        const res = await deleteQnAPost(id, pw);
+        if (res.success) {
+            alert('질문이 삭제되었습니다.');
+            if (window.app) window.app.navigate('community_qna', false);
+        } else {
+            alert(res.error || '비밀번호가 일치하지 않습니다.');
+        }
+    };
+
+    window.openWriteArticle = function(defaultType = 'news') {
+        const select = document.getElementById('art-type');
+        if (select) select.value = defaultType;
+        const modal = document.getElementById('write-article-modal');
+        if (modal) {
+            if (typeof modal.showModal === 'function') modal.showModal();
+            else modal.setAttribute('open', '');
+        }
+    };
+}
+

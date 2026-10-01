@@ -2,13 +2,14 @@
    GRAN GUITAR - Main Web Application Entry Point (Router & Standalone Item Page)
    ========================================================================== */
 
-import { initHeader } from './components/header.js?v=10';
+import { initHeader } from './components/header.js?v=11';
 import { 
     initPopups, 
     updateCartBadge, 
     renderCartModal, 
-    initAuthModal 
-} from './components/modals.js?v=10';
+    initAuthModal,
+    initBoardModals 
+} from './components/modals.js?v=11';
 import { 
     renderHome, 
     renderAboutCompany, 
@@ -18,19 +19,21 @@ import {
     renderItemDetail,
     renderNewsPage, 
     renderCommunityReview, 
+    renderCommunityQnA,
     renderCommunityFaq, 
     renderCommunityMovie, 
     renderCommunityMusic, 
     renderSupportAs, 
     renderSupportGuitar, 
     attachPageEvents 
-} from './components/pages.js?v=10';
-import { productsData } from './data.js?v=10';
+} from './components/pages.js?v=11';
+import { productsData } from './data.js?v=11';
 
 class GranGuitarApp {
     constructor() {
         this.appContent = document.getElementById('app-content');
         this.currentRoute = 'home';
+        window.app = this;
     }
 
     init() {
@@ -53,11 +56,12 @@ class GranGuitarApp {
             }
         });
 
-        // 3. Initialize Modals & Popups
+        // 3. Initialize Modals & Popups & Boards
         initPopups();
         updateCartBadge();
         renderCartModal();
         initAuthModal();
+        initBoardModals();
 
         // 4. Render initial route from URL hash or fallback to home
         const initialHash = window.location.hash.replace('#', '');
@@ -72,14 +76,14 @@ class GranGuitarApp {
         });
     }
 
-    navigate(route, pushState = true) {
+    async navigate(route, pushState = true) {
         if (!route || route.startsWith('tab-')) return;
         
         const validRoutes = [
             'home', 'about_company', 'about_luthier', 'about_location',
             'product_10', 'product_20', 'product_30', 'product_40', 'product_50',
             'news_news', 'news_notice', 'news_concert',
-            'community_review', 'community_faq', 'community_movie', 'community_music',
+            'community_review', 'community_qna', 'community_faq', 'community_movie', 'community_music',
             'support_as', 'support_guitar'
         ];
 
@@ -134,18 +138,21 @@ class GranGuitarApp {
 
                 // NEWS (3 Submenus)
                 case 'news_news':
-                    html = renderNewsPage('news');
+                    html = await renderNewsPage('news');
                     break;
                 case 'news_notice':
-                    html = renderNewsPage('notice');
+                    html = await renderNewsPage('notice');
                     break;
                 case 'news_concert':
-                    html = renderNewsPage('concert');
+                    html = await renderNewsPage('concert');
                     break;
 
-                // COMMUNITY (4 Submenus)
+                // COMMUNITY (5 Submenus)
                 case 'community_review':
-                    html = renderCommunityReview();
+                    html = await renderCommunityReview();
+                    break;
+                case 'community_qna':
+                    html = await renderCommunityQnA();
                     break;
                 case 'community_faq':
                     html = renderCommunityFaq();
@@ -159,7 +166,7 @@ class GranGuitarApp {
 
                 // SUPPORT (2 Submenus)
                 case 'support_as':
-                    html = renderSupportAs();
+                    html = await renderSupportAs();
                     break;
                 case 'support_guitar':
                     html = renderSupportGuitar();
