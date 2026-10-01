@@ -38,12 +38,12 @@ export function renderHome() {
                 <h2 class="section-title">그랑기타 브랜드 파트너십 & 연주 시연</h2>
             </div>
             
-            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1.5rem; margin-bottom: 2rem;">
-                <a href="http://gran.mv-web.co.kr/shop" target="_blank" rel="noopener" style="display:block; border-radius: var(--radius-md); overflow:hidden; border:1px solid var(--border-gold);">
-                    <img src="images/local_assets/mainBanner_1.jpg" alt="메인 배너 1" style="width:100%; height:auto; display:block;">
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 1.5rem; margin-bottom: 2rem;">
+                <a href="http://gran.mv-web.co.kr/shop" target="_blank" rel="noopener" style="display:block; height:320px; border-radius: var(--radius-md); overflow:hidden; border:1px solid var(--border-gold); box-shadow: 0 4px 15px rgba(0,0,0,0.04); transition: transform 0.3s ease;">
+                    <img src="images/local_assets/mainBanner_1.jpg" alt="그랑기타 수제 쇼핑몰" style="width:100%; height:100%; object-fit:cover; object-position:center; display:block;">
                 </a>
-                <div style="border-radius: var(--radius-md); overflow:hidden; border:1px solid var(--border-gold);">
-                    <img src="images/local_assets/mainBanner_2.jpg" alt="메인 배너 2" style="width:100%; height:auto; display:block;">
+                <div style="height:320px; border-radius: var(--radius-md); overflow:hidden; border:1px solid var(--border-gold); box-shadow: 0 4px 15px rgba(0,0,0,0.04);">
+                    <img src="images/local_assets/mainBanner_2.jpg" alt="그랑기타 제작 공방 스튜디오" style="width:100%; height:100%; object-fit:cover; object-position:center; display:block;">
                 </div>
             </div>
 
@@ -51,12 +51,12 @@ export function renderHome() {
                 <div class="video-frame-container">
                     <iframe src="https://www.youtube.com/embed/4dTEE070KKo" title="그랑기타 연주 시연" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
                 </div>
-                <div style="display: flex; flex-direction: column; gap: 1rem;">
-                    <div style="border-radius: var(--radius-md); overflow:hidden; border:1px solid var(--border-gold);">
-                        <img src="images/local_assets/mainBanner_4.jpg" alt="메인 배너 4" style="width:100%; height:auto; display:block;">
+                <div style="display: flex; flex-direction: column; gap: 1rem; height: 100%;">
+                    <div style="border-radius: var(--radius-md); overflow:hidden; border:1px solid var(--border-gold); flex:1; min-height: 140px;">
+                        <img src="images/local_assets/mainBanner_4.jpg" alt="그랑기타 제작 철학" style="width:100%; height:100%; object-fit:cover; object-position:center; display:block;">
                     </div>
-                    <div style="border-radius: var(--radius-md); overflow:hidden; border:1px solid var(--border-gold);">
-                        <img src="images/local_assets/mainBanner_5.jpg" alt="메인 배너 5" style="width:100%; height:auto; display:block;">
+                    <div style="border-radius: var(--radius-md); overflow:hidden; border:1px solid var(--border-gold); flex:1; min-height: 140px;">
+                        <img src="images/local_assets/mainBanner_5.jpg" alt="그랑기타 시연 현장" style="width:100%; height:100%; object-fit:cover; object-position:center; display:block;">
                     </div>
                 </div>
             </div>
