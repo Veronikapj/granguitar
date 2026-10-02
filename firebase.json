@@ -30,6 +30,9 @@
   },
   "auth": {
     "providers": {
+      "emailPassword": {
+        "enabled": true
+      },
       "googleSignIn": {
         "oAuthBrandDisplayName": "그랑기타 Gran Guitar",
         "supportEmail": "sherlockpj@hotmail.com"

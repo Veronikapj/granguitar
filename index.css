@@ -2897,6 +2897,144 @@ summary::-moz-list-bullet {
     text-decoration: underline;
 }
 
+/* Auth Helper Links (Find ID / PW) */
+.auth-helper-row {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 0.8rem;
+    margin-top: 1.2rem;
+    padding-top: 0.8rem;
+    border-top: 1px dashed #e8ded2;
+}
+
+.auth-sub-link {
+    background: none;
+    border: none;
+    color: #7d7265;
+    font-size: 0.85rem;
+    cursor: pointer;
+    padding: 0;
+    transition: color 0.2s ease;
+}
+
+.auth-sub-link:hover {
+    color: var(--accent-burgundy);
+    text-decoration: underline;
+}
+
+.auth-sub-divider {
+    color: #d8cebf;
+    font-size: 0.75rem;
+}
+
+/* Password Match Validation Badge */
+.pw-match-msg {
+    font-size: 0.8rem;
+    margin-top: 0.35rem;
+    display: block;
+    font-weight: 500;
+}
+
+.pw-match-msg.valid {
+    color: #27ae60;
+}
+
+.pw-match-msg.invalid {
+    color: #e74c3c;
+}
+
+.form-security-notice {
+    font-size: 0.78rem;
+    color: #8c8275;
+    background: #faf7f2;
+    padding: 0.6rem 0.8rem;
+    border-radius: 6px;
+    border: 1px solid #ebdccb;
+    margin-bottom: 1rem;
+    line-height: 1.45;
+}
+
+/* Find Account View */
+.find-account-container {
+    animation: fadeIn 0.2s ease-out;
+}
+
+.find-account-header {
+    text-align: center;
+    margin-bottom: 1.2rem;
+}
+
+.find-account-header h3 {
+    font-size: 1.25rem;
+    color: var(--text-primary);
+    font-family: var(--font-heading);
+    margin-bottom: 0.3rem;
+}
+
+.find-header-desc {
+    font-size: 0.82rem;
+    color: #8c8275;
+}
+
+.find-sub-tabs {
+    margin-bottom: 1.2rem !important;
+}
+
+.auth-helper-note {
+    font-size: 0.82rem;
+    color: #8c8275;
+    line-height: 1.4;
+    margin-bottom: 1rem;
+}
+
+.auth-result-box {
+    margin-top: 1.2rem;
+    padding: 1.1rem;
+    border-radius: 8px;
+    font-size: 0.9rem;
+    line-height: 1.6;
+    text-align: center;
+    animation: fadeIn 0.2s ease;
+}
+
+.auth-result-box.success {
+    background: #f4faf6;
+    border: 1px solid #c2e5d1;
+    color: #1e6b3f;
+}
+
+.auth-result-box.error {
+    background: #fdf5f5;
+    border: 1px solid #fad0d0;
+    color: #b33939;
+}
+
+.auth-result-box strong {
+    color: var(--accent-burgundy);
+    font-size: 1.05rem;
+}
+
+.btn-text-back {
+    display: block;
+    width: 100%;
+    text-align: center;
+    margin-top: 1.4rem;
+    background: none;
+    border: none;
+    color: var(--accent-burgundy);
+    font-size: 0.88rem;
+    font-weight: 600;
+    cursor: pointer;
+    padding: 0.5rem;
+    transition: opacity 0.2s ease;
+}
+
+.btn-text-back:hover {
+    opacity: 0.8;
+    text-decoration: underline;
+}
+
 
 
 

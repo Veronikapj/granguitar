@@ -11,7 +11,16 @@ import {
     deleteReview, 
     deleteQnAPost 
 } from '../db.js?v=55';
-import { loginWithGoogle, logoutUser, getCurrentUser } from '../auth.js?v=56';
+import { 
+    loginWithGoogle, 
+    loginWithEmail, 
+    registerWithEmail, 
+    findId, 
+    resetPassword, 
+    maskEmail, 
+    logoutUser, 
+    getCurrentUser 
+} from '../auth.js?v=59';
 
 // Local Storage & Cart State
 export const cartState = JSON.parse(localStorage.getItem('granguitar_cart') || '[]');
@@ -213,9 +222,11 @@ export function initAuthModal() {
     const authContent = document.getElementById('auth-tab-content');
     const tabLogin = document.getElementById('tab-login-btn');
     const tabJoin = document.getElementById('tab-join-btn');
+    const authTabs = document.querySelector('.auth-tabs');
 
     function renderLogin() {
         if (!authContent) return;
+        if (authTabs) authTabs.style.display = 'flex';
         tabLogin?.classList.add('active');
         tabJoin?.classList.remove('active');
         authContent.innerHTML = `
@@ -237,14 +248,20 @@ export function initAuthModal() {
 
             <form id="login-form" class="modal-form">
                 <div class="form-group">
-                    <label>아이디 (E-mail)</label>
-                    <input type="email" id="login-email" required placeholder="user@example.com" value="guest@granguitar.co.kr">
+                    <label for="login-email">아이디 (E-mail)</label>
+                    <input type="email" id="login-email" required placeholder="user@example.com" autocomplete="email">
                 </div>
                 <div class="form-group">
-                    <label>비밀번호</label>
-                    <input type="password" id="login-pw" required placeholder="••••••••" value="12345678">
+                    <label for="login-pw">비밀번호</label>
+                    <input type="password" id="login-pw" required placeholder="비밀번호를 입력하세요" autocomplete="current-password">
                 </div>
-                <button type="submit" class="btn-primary full-width">일반 로그인</button>
+                <button type="submit" id="btn-submit-login" class="btn-primary full-width">일반 로그인</button>
+
+                <div class="auth-helper-row">
+                    <button type="button" id="btn-goto-find-id" class="auth-sub-link">아이디 찾기</button>
+                    <span class="auth-sub-divider">|</span>
+                    <button type="button" id="btn-goto-find-pw" class="auth-sub-link">비밀번호 찾기</button>
+                </div>
             </form>
         `;
 
@@ -264,15 +281,44 @@ export function initAuthModal() {
             }
         });
 
-        document.getElementById('login-form')?.addEventListener('submit', (e) => {
+        document.getElementById('login-form')?.addEventListener('submit', async (e) => {
             e.preventDefault();
-            alert('로그인되었습니다. 그랑기타 회원으로 환영합니다!');
-            document.getElementById('auth-modal').close();
+            const email = document.getElementById('login-email')?.value;
+            const pw = document.getElementById('login-pw')?.value;
+            const submitBtn = document.getElementById('btn-submit-login');
+
+            try {
+                if (submitBtn) {
+                    submitBtn.disabled = true;
+                    submitBtn.textContent = '로그인 중...';
+                }
+                const res = await loginWithEmail(email, pw);
+                if (res.success) {
+                    alert(`${res.user.displayName}님, 로그인되었습니다!`);
+                    document.getElementById('auth-modal')?.close();
+                }
+            } catch (err) {
+                alert(err.message);
+            } finally {
+                if (submitBtn) {
+                    submitBtn.disabled = false;
+                    submitBtn.textContent = '일반 로그인';
+                }
+            }
+        });
+
+        document.getElementById('btn-goto-find-id')?.addEventListener('click', () => {
+            renderFindAccount('id');
+        });
+
+        document.getElementById('btn-goto-find-pw')?.addEventListener('click', () => {
+            renderFindAccount('pw');
         });
     }
 
     function renderJoin() {
         if (!authContent) return;
+        if (authTabs) authTabs.style.display = 'flex';
         tabJoin?.classList.add('active');
         tabLogin?.classList.remove('active');
         authContent.innerHTML = `
@@ -294,24 +340,59 @@ export function initAuthModal() {
 
             <form id="join-form" class="modal-form">
                 <div class="form-group">
-                    <label>성함 *</label>
-                    <input type="text" required placeholder="홍길동">
+                    <label for="join-name">성함 *</label>
+                    <input type="text" id="join-name" required placeholder="홍길동" autocomplete="name">
                 </div>
                 <div class="form-group">
-                    <label>아이디 (E-mail) *</label>
-                    <input type="email" required placeholder="user@example.com">
+                    <label for="join-email">아이디 (E-mail) *</label>
+                    <input type="email" id="join-email" required placeholder="user@example.com" autocomplete="email">
                 </div>
                 <div class="form-group">
-                    <label>비밀번호 *</label>
-                    <input type="password" required placeholder="비밀번호 8자리 이상">
+                    <label for="join-pw">비밀번호 *</label>
+                    <input type="password" id="join-pw" required placeholder="영문/숫자 6자리 이상" minlength="6" autocomplete="new-password">
                 </div>
                 <div class="form-group">
-                    <label>연락처 *</label>
-                    <input type="tel" required placeholder="010-0000-0000">
+                    <label for="join-pw-confirm">비밀번호 확인 *</label>
+                    <input type="password" id="join-pw-confirm" required placeholder="비밀번호를 한번 더 입력하세요" minlength="6" autocomplete="new-password">
+                    <span id="pw-match-status" class="pw-match-msg"></span>
                 </div>
-                <button type="submit" class="btn-primary full-width">그랑기타 회원가입 완료</button>
+                <div class="form-group">
+                    <label for="join-phone">연락처 *</label>
+                    <input type="tel" id="join-phone" required placeholder="010-0000-0000" autocomplete="tel">
+                </div>
+                <div class="form-security-notice">
+                    🔒 개인정보 및 비밀번호는 안전하게 암호화(Google scrypt 암호화)되어 보관됩니다.
+                </div>
+                <button type="submit" id="btn-submit-join" class="btn-primary full-width">그랑기타 회원가입 완료</button>
             </form>
         `;
+
+        const pwInput = document.getElementById('join-pw');
+        const pwConfirmInput = document.getElementById('join-pw-confirm');
+        const matchStatus = document.getElementById('pw-match-status');
+
+        function checkPasswordMatch() {
+            if (!matchStatus) return;
+            const p1 = pwInput?.value || '';
+            const p2 = pwConfirmInput?.value || '';
+
+            if (!p2) {
+                matchStatus.textContent = '';
+                matchStatus.className = 'pw-match-msg';
+                return;
+            }
+
+            if (p1 === p2) {
+                matchStatus.textContent = '✓ 비밀번호가 일치합니다.';
+                matchStatus.className = 'pw-match-msg valid';
+            } else {
+                matchStatus.textContent = '✕ 비밀번호가 일치하지 않습니다.';
+                matchStatus.className = 'pw-match-msg invalid';
+            }
+        }
+
+        pwInput?.addEventListener('input', checkPasswordMatch);
+        pwConfirmInput?.addEventListener('input', checkPasswordMatch);
 
         document.getElementById('btn-google-join')?.addEventListener('click', async () => {
             const btn = document.getElementById('btn-google-join');
@@ -329,10 +410,213 @@ export function initAuthModal() {
             }
         });
 
-        document.getElementById('join-form')?.addEventListener('submit', (e) => {
+        document.getElementById('join-form')?.addEventListener('submit', async (e) => {
             e.preventDefault();
-            alert('그랑기타 회원가입이 성공적으로 완료되었습니다!');
-            document.getElementById('auth-modal').close();
+            const name = document.getElementById('join-name')?.value;
+            const email = document.getElementById('join-email')?.value;
+            const pw = document.getElementById('join-pw')?.value;
+            const pwConfirm = document.getElementById('join-pw-confirm')?.value;
+            const phone = document.getElementById('join-phone')?.value;
+            const submitBtn = document.getElementById('btn-submit-join');
+
+            if (pw !== pwConfirm) {
+                alert('비밀번호와 비밀번호 확인이 일치하지 않습니다. 다시 확인해주세요.');
+                pwConfirmInput?.focus();
+                return;
+            }
+
+            if (pw.length < 6) {
+                alert('비밀번호는 최소 6자리 이상이어야 합니다.');
+                pwInput?.focus();
+                return;
+            }
+
+            try {
+                if (submitBtn) {
+                    submitBtn.disabled = true;
+                    submitBtn.textContent = '회원가입 처리 중...';
+                }
+                const res = await registerWithEmail(email, pw, name, phone);
+                if (res.success) {
+                    alert(`${res.user.displayName}님, 그랑기타 회원가입이 성공적으로 완료되었습니다!`);
+                    document.getElementById('auth-modal')?.close();
+                }
+            } catch (err) {
+                alert(err.message);
+            } finally {
+                if (submitBtn) {
+                    submitBtn.disabled = false;
+                    submitBtn.textContent = '그랑기타 회원가입 완료';
+                }
+            }
+        });
+    }
+
+    function renderFindAccount(initialSubTab = 'id') {
+        if (!authContent) return;
+        if (authTabs) authTabs.style.display = 'none';
+
+        authContent.innerHTML = `
+            <div class="find-account-container">
+                <div class="find-account-header">
+                    <h3>계정 정보 찾기</h3>
+                    <p class="find-header-desc">가입하신 정보를 통해 아이디 및 비밀번호를 안전하게 찾으실 수 있습니다.</p>
+                </div>
+
+                <div class="auth-tabs find-sub-tabs">
+                    <button type="button" class="auth-tab ${initialSubTab === 'id' ? 'active' : ''}" id="tab-find-id-sub">아이디 찾기</button>
+                    <button type="button" class="auth-tab ${initialSubTab === 'pw' ? 'active' : ''}" id="tab-find-pw-sub">비밀번호 찾기</button>
+                </div>
+
+                <div id="find-sub-content">
+                    <!-- Rendered below -->
+                </div>
+
+                <button type="button" id="btn-back-to-login" class="btn-text-back">← 로그인 화면으로 돌아가기</button>
+            </div>
+        `;
+
+        const subTabId = document.getElementById('tab-find-id-sub');
+        const subTabPw = document.getElementById('tab-find-pw-sub');
+        const subContent = document.getElementById('find-sub-content');
+
+        function renderFindIdView() {
+            subTabId?.classList.add('active');
+            subTabPw?.classList.remove('active');
+            if (!subContent) return;
+
+            subContent.innerHTML = `
+                <form id="form-find-id" class="modal-form">
+                    <div class="form-group">
+                        <label for="find-id-name">가입 성함 *</label>
+                        <input type="text" id="find-id-name" required placeholder="홍길동" autocomplete="name">
+                    </div>
+                    <div class="form-group">
+                        <label for="find-id-phone">가입 연락처 *</label>
+                        <input type="tel" id="find-id-phone" required placeholder="010-0000-0000" autocomplete="tel">
+                    </div>
+                    <button type="submit" id="btn-submit-find-id" class="btn-primary full-width">아이디(이메일) 조회</button>
+                </form>
+                <div id="find-id-result" style="display:none;"></div>
+            `;
+
+            document.getElementById('form-find-id')?.addEventListener('submit', async (e) => {
+                e.preventDefault();
+                const name = document.getElementById('find-id-name')?.value;
+                const phone = document.getElementById('find-id-phone')?.value;
+                const resultBox = document.getElementById('find-id-result');
+                const btn = document.getElementById('btn-submit-find-id');
+
+                try {
+                    if (btn) {
+                        btn.disabled = true;
+                        btn.textContent = '조회 중...';
+                    }
+                    const res = await findId(name, phone);
+                    if (resultBox) {
+                        resultBox.style.display = 'block';
+                        if (res.success && res.emails?.length > 0) {
+                            const maskedList = res.emails.map(em => `<li><strong>${maskEmail(em)}</strong></li>`).join('');
+                            resultBox.className = 'auth-result-box success';
+                            resultBox.innerHTML = `
+                                <p style="margin-bottom:0.5rem;">회원님의 정보와 일치하는 아이디 목록입니다:</p>
+                                <ul style="list-style:none; padding:0; margin:0.5rem 0; font-size:1.05rem;">
+                                    ${maskedList}
+                                </ul>
+                                <button type="button" id="btn-use-found-id-login" class="btn-primary full-width" style="margin-top:0.8rem; padding:0.6rem;">로그인하러 가기</button>
+                            `;
+                            document.getElementById('btn-use-found-id-login')?.addEventListener('click', () => {
+                                renderLogin();
+                            });
+                        } else {
+                            resultBox.className = 'auth-result-box error';
+                            resultBox.innerHTML = `
+                                <p>${res.message || '일치하는 회원 정보를 찾을 수 없습니다.'}</p>
+                            `;
+                        }
+                    }
+                } catch (err) {
+                    if (resultBox) {
+                        resultBox.style.display = 'block';
+                        resultBox.className = 'auth-result-box error';
+                        resultBox.innerHTML = `<p>${err.message}</p>`;
+                    }
+                } finally {
+                    if (btn) {
+                        btn.disabled = false;
+                        btn.textContent = '아이디(이메일) 조회';
+                    }
+                }
+            });
+        }
+
+        function renderFindPwView() {
+            subTabPw?.classList.add('active');
+            subTabId?.classList.remove('active');
+            if (!subContent) return;
+
+            subContent.innerHTML = `
+                <form id="form-find-pw" class="modal-form">
+                    <div class="form-group">
+                        <label for="find-pw-email">가입 아이디 (E-mail) *</label>
+                        <input type="email" id="find-pw-email" required placeholder="user@example.com" autocomplete="email">
+                    </div>
+                    <p class="auth-helper-note">입력하신 이메일 주소로 안전한 비밀번호 재설정 링크를 전송해 드립니다.</p>
+                    <button type="submit" id="btn-submit-find-pw" class="btn-primary full-width">비밀번호 재설정 링크 전송</button>
+                </form>
+                <div id="find-pw-result" style="display:none;"></div>
+            `;
+
+            document.getElementById('form-find-pw')?.addEventListener('submit', async (e) => {
+                e.preventDefault();
+                const email = document.getElementById('find-pw-email')?.value;
+                const resultBox = document.getElementById('find-pw-result');
+                const btn = document.getElementById('btn-submit-find-pw');
+
+                try {
+                    if (btn) {
+                        btn.disabled = true;
+                        btn.textContent = '링크 전송 중...';
+                    }
+                    const res = await resetPassword(email);
+                    if (resultBox) {
+                        resultBox.style.display = 'block';
+                        resultBox.className = 'auth-result-box success';
+                        resultBox.innerHTML = `
+                            <p style="margin-bottom:0.5rem;">💌 ${res.message}</p>
+                            <p style="font-size:0.85rem; color:#8c8275;">메일이 도착하지 않았을 경우 스팸 편지함을 확인해주세요.</p>
+                            <button type="button" id="btn-back-login-after-pw" class="btn-primary full-width" style="margin-top:0.8rem; padding:0.6rem;">로그인 화면으로 이동</button>
+                        `;
+                        document.getElementById('btn-back-login-after-pw')?.addEventListener('click', () => {
+                            renderLogin();
+                        });
+                    }
+                } catch (err) {
+                    if (resultBox) {
+                        resultBox.style.display = 'block';
+                        resultBox.className = 'auth-result-box error';
+                        resultBox.innerHTML = `<p>${err.message}</p>`;
+                    }
+                } finally {
+                    if (btn) {
+                        btn.disabled = false;
+                        btn.textContent = '비밀번호 재설정 링크 전송';
+                    }
+                }
+            });
+        }
+
+        subTabId?.addEventListener('click', renderFindIdView);
+        subTabPw?.addEventListener('click', renderFindPwView);
+
+        if (initialSubTab === 'pw') {
+            renderFindPwView();
+        } else {
+            renderFindIdView();
+        }
+
+        document.getElementById('btn-back-to-login')?.addEventListener('click', () => {
+            renderLogin();
         });
     }
 

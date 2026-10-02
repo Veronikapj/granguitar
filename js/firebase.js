@@ -10,6 +10,9 @@ import {
     getDocs, 
     deleteDoc, 
     doc, 
+    setDoc,
+    getDoc,
+    where,
     updateDoc, 
     query, 
     orderBy, 
@@ -22,6 +25,10 @@ import {
     getAuth, 
     signInWithPopup, 
     GoogleAuthProvider, 
+    signInWithEmailAndPassword,
+    createUserWithEmailAndPassword,
+    sendPasswordResetEmail,
+    updateProfile,
     signOut, 
     onAuthStateChanged 
 } from 'https://www.gstatic.com/firebasejs/10.13.2/firebase-auth.js';
@@ -63,6 +70,9 @@ export {
     getDocs, 
     deleteDoc, 
     doc, 
+    setDoc,
+    getDoc,
+    where,
     updateDoc, 
     query, 
     orderBy, 
@@ -71,6 +81,10 @@ export {
     onSnapshot,
     signInWithPopup,
     GoogleAuthProvider,
-    signOut,
+    signInWithEmailAndPassword,
+    createUserWithEmailAndPassword,
+    sendPasswordResetEmail,
+    updateProfile,
+    signOut, 
     onAuthStateChanged
 };
