@@ -115,8 +115,8 @@ function initDbEnvBadge() {
 
     if (!showAlways) return;
 
-    window.addEventListener('DOMContentLoaded', () => {
-        if (document.getElementById('db-env-badge')) return;
+    function attachBadge() {
+        if (!document.body || document.getElementById('db-env-badge')) return;
         const badge = document.createElement('div');
         badge.id = 'db-env-badge';
         badge.style.cssText = `
@@ -157,7 +157,13 @@ function initDbEnvBadge() {
             }
         });
         document.body.appendChild(badge);
-    });
+    }
+
+    if (document.readyState === 'loading') {
+        window.addEventListener('DOMContentLoaded', attachBadge);
+    } else {
+        attachBadge();
+    }
 }
 initDbEnvBadge();
 
@@ -176,9 +182,6 @@ export {
     app, 
     db, 
     auth,
-    currentDbEnv,
-    getCol,
-    setDbEnv,
     isFirestoreAvailable,
     isAuthAvailable,
     collection, 
