@@ -27,7 +27,7 @@ import {
     renderSupportGuitar, 
     renderMyPage,
     attachPageEvents 
-} from './components/pages.js?v=63';
+} from './components/pages.js?v=65';
 import { productsData } from './data.js?v=63';
 import { seedInitialDataIfNeeded } from './db.js?v=63';
 import { initAuth } from './auth.js?v=63';

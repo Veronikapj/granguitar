@@ -12,13 +12,13 @@ export function renderHome() {
         <!-- Hero Carousel (Original Site Banners 100% 1:1) -->
         <section class="hero-carousel" id="hero-slider">
             <div class="hero-slide active" style="background-image: url('images/local_assets/banner_1.jpg');">
-                <img src="images/local_assets/banner_1.jpg_2" alt="그랑기타 대표 메인 배너 1" class="hero-banner-img">
+                <img src="images/local_assets/banner_1_2.jpg" alt="그랑기타 대표 메인 배너 1" class="hero-banner-img">
             </div>
             <div class="hero-slide" style="background-image: url('images/local_assets/banner_2.jpg');">
-                <img src="images/local_assets/banner_2.jpg_2" alt="그랑기타 대표 메인 배너 2" class="hero-banner-img">
+                <img src="images/local_assets/banner_2_2.jpg" alt="그랑기타 대표 메인 배너 2" class="hero-banner-img">
             </div>
             <div class="hero-slide" style="background-image: url('images/local_assets/banner_3.jpg');">
-                <img src="images/local_assets/banner_3.jpg_2" alt="그랑기타 대표 메인 배너 3" class="hero-banner-img">
+                <img src="images/local_assets/banner_3_2.jpg" alt="그랑기타 대표 메인 배너 3" class="hero-banner-img">
             </div>
 
             <!-- Slide Navigation Controls -->
