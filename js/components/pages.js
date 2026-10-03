@@ -867,6 +867,9 @@ export function renderSupportGuitar() {
                 `).join('')}
             </div>
         </div>
+    `;
+}
+
 // --------------------------------------------------------------------------
 // 7. MYPAGE (YoungCart & Gnuboard Standard Membership Page)
 // --------------------------------------------------------------------------
