@@ -516,17 +516,53 @@ export function initAuthModal() {
                     if (resultBox) {
                         resultBox.style.display = 'block';
                         if (res.success && res.emails?.length > 0) {
-                            const maskedList = res.emails.map(em => `<li><strong>${maskEmail(em)}</strong></li>`).join('');
+                            const listHtml = res.emails.map(em => `
+                                <li style="margin: 0.4rem 0; display: flex; align-items: center; justify-content: space-between; background: rgba(0,0,0,0.25); padding: 0.6rem 0.8rem; border-radius: 4px; border: 1px solid var(--border-color);">
+                                    <strong style="color: var(--primary-color); font-size: 1.05rem; word-break: break-all; letter-spacing: 0.3px;">${em}</strong>
+                                    <button type="button" class="btn-copy-id" data-email="${em}" style="background: rgba(212, 175, 55, 0.15); border: 1px solid var(--primary-color); color: var(--primary-color); font-size: 0.78rem; padding: 0.25rem 0.6rem; border-radius: 3px; cursor: pointer; margin-left: 0.5rem; flex-shrink: 0; font-family: inherit;">복사</button>
+                                </li>
+                            `).join('');
                             resultBox.className = 'auth-result-box success';
                             resultBox.innerHTML = `
-                                <p style="margin-bottom:0.5rem;">회원님의 정보와 일치하는 아이디 목록입니다:</p>
-                                <ul style="list-style:none; padding:0; margin:0.5rem 0; font-size:1.05rem;">
-                                    ${maskedList}
+                                <p style="margin-bottom:0.6rem; font-size:0.92rem; color:var(--text-color);">회원님의 정보와 일치하는 아이디(이메일)입니다:</p>
+                                <ul style="list-style:none; padding:0; margin:0.5rem 0;">
+                                    ${listHtml}
                                 </ul>
-                                <button type="button" id="btn-use-found-id-login" class="btn-primary full-width" style="margin-top:0.8rem; padding:0.6rem;">로그인하러 가기</button>
+                                <button type="button" id="btn-use-found-id-login" class="btn-primary full-width" style="margin-top:0.8rem; padding:0.65rem;">이 아이디로 로그인하기</button>
                             `;
+
+                            // Copy to clipboard handler
+                            resultBox.querySelectorAll('.btn-copy-id').forEach(btnEl => {
+                                btnEl.addEventListener('click', (ev) => {
+                                    ev.stopPropagation();
+                                    const emailToCopy = btnEl.getAttribute('data-email');
+                                    if (navigator.clipboard) {
+                                        navigator.clipboard.writeText(emailToCopy).then(() => {
+                                            btnEl.textContent = '복사완료!';
+                                            btnEl.style.background = 'var(--primary-color)';
+                                            btnEl.style.color = '#121212';
+                                            setTimeout(() => {
+                                                btnEl.textContent = '복사';
+                                                btnEl.style.background = 'rgba(212, 175, 55, 0.15)';
+                                                btnEl.style.color = 'var(--primary-color)';
+                                            }, 1500);
+                                        });
+                                    }
+                                });
+                            });
+
+                            // Auto-fill into login form
                             document.getElementById('btn-use-found-id-login')?.addEventListener('click', () => {
+                                const targetEmail = res.emails[0];
                                 renderLogin();
+                                setTimeout(() => {
+                                    const emailInput = document.getElementById('login-email');
+                                    if (emailInput) {
+                                        emailInput.value = targetEmail;
+                                        const pwInput = document.getElementById('login-pw');
+                                        if (pwInput) pwInput.focus();
+                                    }
+                                }, 50);
                             });
                         } else {
                             resultBox.className = 'auth-result-box error';
