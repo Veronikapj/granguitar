@@ -273,6 +273,9 @@ export function initAuthModal() {
                 if (res.success) {
                     alert(`${res.user.displayName}님, 그랑기타 회원으로 로그인되었습니다!`);
                     document.getElementById('auth-modal')?.close();
+                    if (window.app && window.app.navigate) {
+                        window.app.navigate('mypage');
+                    }
                 }
             } catch (err) {
                 alert(`Google 로그인 오류: ${err.message}`);
@@ -296,6 +299,9 @@ export function initAuthModal() {
                 if (res.success) {
                     alert(`${res.user.displayName}님, 로그인되었습니다!`);
                     document.getElementById('auth-modal')?.close();
+                    if (window.app && window.app.navigate) {
+                        window.app.navigate('mypage');
+                    }
                 }
             } catch (err) {
                 alert(err.message);
@@ -440,6 +446,9 @@ export function initAuthModal() {
                 if (res.success) {
                     alert(`${res.user.displayName}님, 그랑기타 회원가입이 성공적으로 완료되었습니다!`);
                     document.getElementById('auth-modal')?.close();
+                    if (window.app && window.app.navigate) {
+                        window.app.navigate('mypage');
+                    }
                 }
             } catch (err) {
                 alert(err.message);

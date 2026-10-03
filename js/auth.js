@@ -17,6 +17,7 @@ import {
     onAuthStateChanged,
     doc,
     setDoc,
+    getDoc,
     getDocs,
     collection,
     where,
@@ -330,7 +331,80 @@ export async function logoutUser() {
     return { success: true };
 }
 
-// 8. Auth State Initialization
+// 8. Get User Profile from Firestore / Local Cache
+export async function getUserProfile(uid) {
+    if (!uid) return null;
+    if (isFirestoreAvailable && db) {
+        try {
+            const docSnap = await getDoc(doc(db, getCol('users'), uid));
+            if (docSnap.exists()) {
+                return docSnap.data();
+            }
+        } catch (e) {
+            console.warn("getUserProfile notice:", e);
+        }
+    }
+    // Fallback to local cache
+    try {
+        const regKey = currentDbEnv === 'dev' ? 'gg_dev_registered_users' : 'gg_registered_users';
+        const list = JSON.parse(localStorage.getItem(regKey) || '[]');
+        return list.find(u => u.uid === uid) || null;
+    } catch(e) {
+        return null;
+    }
+}
+
+// 9. Update User Profile
+export async function updateUserProfile({ displayName, phone }) {
+    if (!currentUser) throw new Error("로그인이 필요합니다.");
+    const cleanName = (displayName || '').trim();
+    const cleanPhone = (phone || '').trim();
+
+    if (!cleanName) throw new Error("이름을 입력해주세요.");
+
+    if (isAuthAvailable && auth && auth.currentUser) {
+        try {
+            await updateProfile(auth.currentUser, {
+                displayName: cleanName
+            });
+        } catch (e) {
+            console.warn("Auth updateProfile notice:", e);
+        }
+    }
+
+    currentUser.displayName = cleanName;
+    if (cleanPhone) currentUser.phone = cleanPhone;
+    localStorage.setItem('gg_auth_user', JSON.stringify(currentUser));
+
+    if (isFirestoreAvailable && db && currentUser.uid) {
+        try {
+            await setDoc(doc(db, getCol('users'), currentUser.uid), {
+                name: cleanName,
+                phone: cleanPhone,
+                updatedAt: serverTimestamp()
+            }, { merge: true });
+        } catch (e) {
+            console.warn("Firestore updateUserProfile notice:", e);
+        }
+    }
+
+    // Also update in local registered cache
+    try {
+        const regKey = currentDbEnv === 'dev' ? 'gg_dev_registered_users' : 'gg_registered_users';
+        const list = JSON.parse(localStorage.getItem(regKey) || '[]');
+        const idx = list.findIndex(u => u.uid === currentUser.uid);
+        if (idx !== -1) {
+            list[idx].name = cleanName;
+            list[idx].phone = cleanPhone;
+            localStorage.setItem(regKey, JSON.stringify(list));
+        }
+    } catch(e) {}
+
+    updateAuthUI(currentUser);
+    return { success: true };
+}
+
+// 10. Auth State Initialization
 export function initAuth(onStateChangedCallback) {
     updateAuthUI(currentUser);
 
@@ -362,11 +436,14 @@ export function initAuth(onStateChangedCallback) {
             e.preventDefault();
             await logoutUser();
             alert('로그아웃되었습니다.');
+            if (window.app && window.app.navigate) {
+                window.app.navigate('home');
+            }
         }
     });
 }
 
-// 9. Update Auth UI in Header & Mobile Nav
+// 11. Update Auth UI in Header & Mobile Nav
 export function updateAuthUI(user) {
     const userActionsContainer = document.querySelector('.user-actions');
     const mobileUserInfo = document.querySelector('.mobile-user-info');
@@ -377,7 +454,8 @@ export function updateAuthUI(user) {
     if (userActionsContainer) {
         if (user) {
             userActionsContainer.innerHTML = `
-                <div class="user-logged-badge" title="${user.email || ''}">
+                <button class="btn-text highlight btn-mypage-link" id="btn-open-mypage" data-route="mypage" title="마이페이지">MY PAGE</button>
+                <div class="user-logged-badge" id="btn-user-badge-mypage" data-route="mypage" style="cursor:pointer;" title="마이페이지로 이동 (${user.email || ''})">
                     ${user.photoURL ? `<img src="${user.photoURL}" alt="${user.displayName}" class="user-avatar-circle" onerror="this.style.display='none'">` : '<span class="user-avatar-placeholder">👤</span>'}
                     <span class="user-display-name"><strong>${user.displayName}</strong>님</span>
                 </div>
@@ -412,14 +490,39 @@ export function updateAuthUI(user) {
                 }
             });
         }
+
+        // Handle direct MyPage clicks
+        userActionsContainer.querySelectorAll('[data-route="mypage"]').forEach(el => {
+            el.addEventListener('click', (e) => {
+                e.preventDefault();
+                if (window.app && window.app.navigate) {
+                    window.app.navigate('mypage');
+                }
+            });
+        });
     }
 
     if (mobileUserInfo) {
         if (user) {
             mobileUserInfo.innerHTML = `
-                <span class="m-user-icon">${user.photoURL ? `<img src="${user.photoURL}" class="user-avatar-circle mini">` : '👤'}</span>
-                <span class="m-user-title"><strong>${user.displayName}</strong>님 환영합니다!</span>
+                <div style="display:flex; align-items:center; justify-content:space-between; width:100%; gap:0.5rem;">
+                    <div style="display:flex; align-items:center; gap:0.4rem; cursor:pointer;" data-route="mypage">
+                        <span class="m-user-icon">${user.photoURL ? `<img src="${user.photoURL}" class="user-avatar-circle mini">` : '👤'}</span>
+                        <span class="m-user-title"><strong>${user.displayName}</strong>님</span>
+                    </div>
+                    <button class="btn-text" style="font-size:0.75rem; color:var(--primary-color); border:1px solid var(--border-color); padding:0.2rem 0.5rem; border-radius:3px;" data-route="mypage">MY PAGE</button>
+                </div>
             `;
+            mobileUserInfo.querySelectorAll('[data-route="mypage"]').forEach(el => {
+                el.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    const navMenu = document.getElementById('navigation');
+                    if (navMenu) navMenu.classList.remove('mobile-open');
+                    if (window.app && window.app.navigate) {
+                        window.app.navigate('mypage');
+                    }
+                });
+            });
         } else {
             mobileUserInfo.innerHTML = `
                 <span class="m-user-icon">🎸</span>

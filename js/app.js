@@ -25,11 +25,12 @@ import {
     renderCommunityMusic, 
     renderSupportAs, 
     renderSupportGuitar, 
+    renderMyPage,
     attachPageEvents 
-} from './components/pages.js?v=56';
-import { productsData } from './data.js?v=56';
-import { seedInitialDataIfNeeded } from './db.js?v=56';
-import { initAuth } from './auth.js?v=56';
+} from './components/pages.js?v=63';
+import { productsData } from './data.js?v=63';
+import { seedInitialDataIfNeeded } from './db.js?v=63';
+import { initAuth } from './auth.js?v=63';
 
 class GranGuitarApp {
     constructor() {
@@ -88,7 +89,8 @@ class GranGuitarApp {
             'product_10', 'product_20', 'product_30', 'product_40', 'product_50',
             'news_news', 'news_notice', 'news_concert',
             'community_review', 'community_qna', 'community_faq', 'community_movie', 'community_music',
-            'support_as', 'support_guitar'
+            'support_as', 'support_guitar',
+            'mypage'
         ];
 
         const isItemRoute = route.startsWith('item_');
@@ -174,6 +176,11 @@ class GranGuitarApp {
                     break;
                 case 'support_guitar':
                     html = renderSupportGuitar();
+                    break;
+
+                // MEMBERSHIP (My Page)
+                case 'mypage':
+                    html = await renderMyPage();
                     break;
 
                 default:

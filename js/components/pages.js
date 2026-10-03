@@ -2,9 +2,10 @@
    GRAN GUITAR - Page Renderer (Original Assets & Full Detail Gallery Images)
    ========================================================================== */
 
-import { productsData, newsArticles, mediaVideos, sheetMusicList, faqList, reviewsList, guitarKnowledgeList } from '../data.js?v=55';
-import { addToCart, openModal } from './modals.js?v=55';
-import { getReviews, getQnAPosts, getAsRequests, getArticles } from '../db.js?v=55';
+import { productsData, newsArticles, mediaVideos, sheetMusicList, faqList, reviewsList, guitarKnowledgeList } from '../data.js?v=62';
+import { addToCart, openModal } from './modals.js?v=62';
+import { getReviews, getQnAPosts, getAsRequests, getArticles } from '../db.js?v=62';
+import { getCurrentUser, getUserProfile, updateUserProfile, resetPassword } from '../auth.js?v=62';
 
 export function renderHome() {
     return `
@@ -866,6 +867,306 @@ export function renderSupportGuitar() {
                 `).join('')}
             </div>
         </div>
+// --------------------------------------------------------------------------
+// 7. MYPAGE (YoungCart & Gnuboard Standard Membership Page)
+// --------------------------------------------------------------------------
+export async function renderMyPage() {
+    const user = getCurrentUser();
+
+    if (!user) {
+        return `
+            <div class="page-header">
+                <div class="breadcrumb">
+                    <a href="#" data-route="home">HOME</a> &gt; <span>MEMBERSHIP</span> &gt; <strong>마이페이지 (MY PAGE)</strong>
+                </div>
+                <h1 class="page-title">마이페이지</h1>
+                <p class="page-description">회원님의 주문 내역, 1:1 질문, A/S 접수 현황 및 회원 정보를 확인하실 수 있습니다.</p>
+            </div>
+            <div class="section" style="text-align: center; padding: 4.5rem 1rem;">
+                <div style="font-size: 3.5rem; margin-bottom: 1rem;">🔒</div>
+                <h3 style="font-size: 1.45rem; color: var(--text-primary); margin-bottom: 0.6rem; font-weight: 700;">로그인이 필요한 서비스입니다</h3>
+                <p style="color: var(--text-muted); margin-bottom: 1.8rem; font-size: 0.95rem; line-height: 1.6;">
+                    마이페이지는 그랑기타 회원 전용 공간입니다.<br>
+                    로그인하시면 주문 내역 및 다양한 회원 전용 혜택을 이용하실 수 있습니다.
+                </p>
+                <div style="display: flex; gap: 0.8rem; justify-content: center;">
+                    <button class="btn-primary" id="btn-mypage-open-login" style="padding: 0.75rem 2rem; font-size: 0.95rem;">로그인하기</button>
+                    <button class="btn-secondary" id="btn-mypage-open-join" style="padding: 0.75rem 2rem; font-size: 0.95rem;">회원가입</button>
+                </div>
+            </div>
+        `;
+    }
+
+    const userProfile = await getUserProfile(user.uid);
+    const phone = userProfile?.phone || user.phone || '010-1234-5678';
+    const email = user.email || '';
+    const displayName = user.displayName || '회원';
+
+    // Fetch user-specific records
+    let userQnA = [];
+    try {
+        const allQnA = await getQnAPosts();
+        userQnA = allQnA.filter(q => q.author === displayName || (userProfile && q.author === userProfile.name));
+    } catch(e) {}
+
+    let userAS = [];
+    try {
+        const allAS = await getAsRequests();
+        userAS = allAS.filter(a => a.name === displayName || a.phone === phone);
+    } catch(e) {}
+
+    let userReviews = [];
+    try {
+        const allReviews = await getReviews();
+        userReviews = allReviews.filter(r => r.author === displayName);
+    } catch(e) {}
+
+    let cartItems = [];
+    try {
+        cartItems = JSON.parse(localStorage.getItem('gg_cart') || '[]');
+    } catch(e) {}
+
+    return `
+        <div class="page-header">
+            <div class="breadcrumb">
+                <a href="#" data-route="home">HOME</a> &gt; <span>MEMBERSHIP</span> &gt; <strong>마이페이지 (MY PAGE)</strong>
+            </div>
+            <h1 class="page-title">마이페이지</h1>
+            <p class="page-description">그랑기타 회원 전용 마이페이지입니다. 고객님의 주문 내역 및 활동 현황을 관리하실 수 있습니다.</p>
+        </div>
+
+        <div class="section mypage-container">
+            <!-- 1. Top Member Profile & Summary Card -->
+            <div class="mypage-user-card">
+                <div class="mypage-user-profile">
+                    <div class="mypage-avatar-wrap">
+                        ${user.photoURL ? `<img src="${user.photoURL}" alt="${displayName}" class="mypage-avatar-img">` : `<span class="mypage-avatar-placeholder">👤</span>`}
+                    </div>
+                    <div class="mypage-user-meta">
+                        <div class="mypage-user-name-row">
+                            <h2 class="mypage-user-name">${displayName} 님</h2>
+                            <span class="mypage-badge-tier">정회원 (Standard)</span>
+                        </div>
+                        <p class="mypage-user-info-text">아이디(이메일): <strong>${email}</strong></p>
+                        <p class="mypage-user-info-text">연락처: <strong>${phone}</strong></p>
+                    </div>
+                </div>
+                <div class="mypage-stats-grid">
+                    <div class="mypage-stat-box">
+                        <span class="stat-label">보유 적립금</span>
+                        <strong class="stat-value gold">1,000 P</strong>
+                    </div>
+                    <div class="mypage-stat-box">
+                        <span class="stat-label">보유 할인쿠폰</span>
+                        <strong class="stat-value">1 장</strong>
+                    </div>
+                    <div class="mypage-stat-box">
+                        <span class="stat-label">1:1 질문 내역</span>
+                        <strong class="stat-value">${userQnA.length} 건</strong>
+                    </div>
+                    <div class="mypage-stat-box">
+                        <span class="stat-label">A/S 수리 접수</span>
+                        <strong class="stat-value">${userAS.length} 건</strong>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 2. Sub-tab Navigation (YoungCart / Gnuboard Standard Mypage) -->
+            <div class="mypage-tabs-bar">
+                <button class="mypage-tab-btn active" data-target="tab-orders">📦 최근 주문 / 시연 내역</button>
+                <button class="mypage-tab-btn" data-target="tab-qna">💬 나의 1:1 질문 (${userQnA.length})</button>
+                <button class="mypage-tab-btn" data-target="tab-as">🔧 A/S 수리 현황 (${userAS.length})</button>
+                <button class="mypage-tab-btn" data-target="tab-reviews">⭐ 작성한 이용후기 (${userReviews.length})</button>
+                <button class="mypage-tab-btn" data-target="tab-profile">⚙️ 회원정보 수정</button>
+            </div>
+
+            <!-- 3. Tab Contents -->
+            <!-- Tab 1: Orders -->
+            <div class="mypage-tab-content" id="tab-orders">
+                <div class="mypage-section-head">
+                    <h3 class="mypage-content-title">최근 주문 및 방문 시연 내역</h3>
+                    <span class="mypage-note">최근 접수하신 상품 주문 및 수제 기타 방문 시연 신청 내역입니다.</span>
+                </div>
+                ${cartItems.length > 0 ? `
+                    <div class="mypage-alert-box info">
+                        🛒 현재 장바구니에 <strong>${cartItems.length}개</strong>의 상품/기타가 담겨 있습니다.
+                        <button class="btn-text" id="btn-mypage-view-cart" style="margin-left: 0.8rem; font-weight:700; text-decoration:underline; cursor:pointer;">장바구니 확인하기 &gt;</button>
+                    </div>
+                ` : ''}
+                <div class="table-responsive">
+                    <table class="mypage-table">
+                        <thead>
+                            <tr>
+                                <th style="width: 15%;">주문번호</th>
+                                <th style="width: 45%;">상품명 / 내역</th>
+                                <th style="width: 15%;">주문일자</th>
+                                <th style="width: 15%;">결제금액</th>
+                                <th style="width: 10%;">진행상태</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td colspan="5" class="empty-table-cell">
+                                    <p>최근 접수된 주문 및 시연 내역이 없습니다.</p>
+                                    <button class="btn-primary" data-route="product_10" style="margin-top: 0.8rem; padding: 0.5rem 1.2rem; font-size: 0.85rem;">그랑기타 명기 라인업 둘러보기</button>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- Tab 2: QnA -->
+            <div class="mypage-tab-content" id="tab-qna" style="display:none;">
+                <div class="mypage-section-head">
+                    <h3 class="mypage-content-title">나의 1:1 질문과 답변</h3>
+                    <button class="btn-primary" id="btn-mypage-write-qna" style="padding: 0.45rem 1rem; font-size: 0.82rem;">+ 새 질문 작성</button>
+                </div>
+                <div class="table-responsive">
+                    <table class="mypage-table">
+                        <thead>
+                            <tr>
+                                <th style="width: 15%;">구분</th>
+                                <th style="width: 50%;">질문 제목</th>
+                                <th style="width: 18%;">작성일자</th>
+                                <th style="width: 17%;">상태</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            ${userQnA.length === 0 ? `
+                                <tr>
+                                    <td colspan="4" class="empty-table-cell">
+                                        <p>작성하신 1:1 질문 내역이 없습니다.</p>
+                                        <button class="btn-secondary" id="btn-mypage-empty-qna" style="margin-top: 0.8rem; padding: 0.5rem 1.2rem; font-size: 0.85rem;">마스터 루티어에게 1:1 질문하기</button>
+                                    </td>
+                                </tr>
+                            ` : userQnA.map(q => `
+                                <tr>
+                                    <td><span class="category-badge">${q.category}</span></td>
+                                    <td style="text-align: left; font-weight: 600;">
+                                        ${q.isSecret ? '🔒 ' : ''}${q.title}
+                                        ${q.answer ? `<div style="font-size:0.8rem; color:var(--accent-gold); font-weight:normal; margin-top:0.3rem;">↳ [답변완료] ${q.answer.slice(0, 45)}...</div>` : ''}
+                                    </td>
+                                    <td>${q.date}</td>
+                                    <td><span class="status-pill ${q.status === '답변완료' ? 'complete' : 'pending'}">${q.status}</span></td>
+                                </tr>
+                            `).join('')}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- Tab 3: A/S -->
+            <div class="mypage-tab-content" id="tab-as" style="display:none;">
+                <div class="mypage-section-head">
+                    <h3 class="mypage-content-title">A/S 및 리페어 수리 신청 현황</h3>
+                    <button class="btn-primary" id="btn-mypage-write-as" style="padding: 0.45rem 1rem; font-size: 0.82rem;">+ A/S 온라인 접수</button>
+                </div>
+                <div class="table-responsive">
+                    <table class="mypage-table">
+                        <thead>
+                            <tr>
+                                <th style="width: 18%;">접수번호</th>
+                                <th style="width: 25%;">악기 모델명</th>
+                                <th style="width: 25%;">수리/점검 증상</th>
+                                <th style="width: 17%;">접수일자</th>
+                                <th style="width: 15%;">진행현황</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            ${userAS.length === 0 ? `
+                                <tr>
+                                    <td colspan="5" class="empty-table-cell">
+                                        <p>접수된 A/S 및 수리 신청 내역이 없습니다.</p>
+                                        <button class="btn-secondary" id="btn-mypage-empty-as" style="margin-top: 0.8rem; padding: 0.5rem 1.2rem; font-size: 0.85rem;">온라인 A/S 수리 신청하기</button>
+                                    </td>
+                                </tr>
+                            ` : userAS.map(a => `
+                                <tr>
+                                    <td><strong>${a.ticketId || a.id}</strong></td>
+                                    <td>${a.model || '그랑기타'}</td>
+                                    <td style="text-align: left;">${a.type}</td>
+                                    <td>${a.date}</td>
+                                    <td><span class="status-pill ${a.status === '완료' ? 'complete' : 'progress'}">${a.status || '접수완료'}</span></td>
+                                </tr>
+                            `).join('')}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- Tab 4: Reviews -->
+            <div class="mypage-tab-content" id="tab-reviews" style="display:none;">
+                <div class="mypage-section-head">
+                    <h3 class="mypage-content-title">내가 작성한 이용후기</h3>
+                    <button class="btn-primary" id="btn-mypage-write-review" style="padding: 0.45rem 1rem; font-size: 0.82rem;">+ 후기 작성하기</button>
+                </div>
+                <div class="table-responsive">
+                    <table class="mypage-table">
+                        <thead>
+                            <tr>
+                                <th style="width: 15%;">평점</th>
+                                <th style="width: 20%;">기타 모델</th>
+                                <th style="width: 50%;">후기 제목 / 내용</th>
+                                <th style="width: 15%;">작성일자</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            ${userReviews.length === 0 ? `
+                                <tr>
+                                    <td colspan="4" class="empty-table-cell">
+                                        <p>작성하신 악기 및 체험단 후기가 없습니다.</p>
+                                        <button class="btn-secondary" id="btn-mypage-empty-rev" style="margin-top: 0.8rem; padding: 0.5rem 1.2rem; font-size: 0.85rem;">첫 번째 이용후기 작성하기</button>
+                                    </td>
+                                </tr>
+                            ` : userReviews.map(r => `
+                                <tr>
+                                    <td style="color:var(--accent-gold);">★ ${r.rating || 5}.0</td>
+                                    <td>${r.model || '그랑기타'}</td>
+                                    <td style="text-align:left;"><strong>${r.title}</strong><div style="font-size:0.8rem; color:var(--text-muted); margin-top:0.2rem;">${(r.content || '').slice(0, 40)}...</div></td>
+                                    <td>${r.date}</td>
+                                </tr>
+                            `).join('')}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- Tab 5: Edit Profile -->
+            <div class="mypage-tab-content" id="tab-profile" style="display:none;">
+                <div class="mypage-section-head">
+                    <h3 class="mypage-content-title">회원정보 수정 및 보안 설정</h3>
+                    <span class="mypage-note">회원님의 닉네임과 연락처를 최신 정보로 변경할 수 있습니다.</span>
+                </div>
+                <div class="mypage-form-card">
+                    <form id="form-mypage-profile" class="modal-form" style="max-width: 600px; margin: 0 auto;">
+                        <div class="form-group">
+                            <label for="mypage-email">가입 아이디 (E-mail)</label>
+                            <input type="email" id="mypage-email" value="${email}" disabled style="background: rgba(0,0,0,0.06); cursor: not-allowed;">
+                            <span class="auth-helper-note" style="margin-top:0.2rem;">* 아이디(이메일)는 변경할 수 없습니다.</span>
+                        </div>
+                        <div class="form-group">
+                            <label for="mypage-name">이름 / 닉네임 *</label>
+                            <input type="text" id="mypage-name" value="${displayName}" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="mypage-phone">휴대폰 번호 *</label>
+                            <input type="tel" id="mypage-phone" value="${phone}" required placeholder="010-0000-0000">
+                        </div>
+                        <div class="form-group" style="padding-top: 0.8rem; border-top: 1px dashed var(--border-gold);">
+                            <label>비밀번호 변경</label>
+                            <div style="display: flex; gap: 0.6rem; align-items: center;">
+                                <input type="text" value="••••••••" disabled style="background: rgba(0,0,0,0.06); cursor: not-allowed; flex: 1;">
+                                <button type="button" id="btn-mypage-reset-pw" class="btn-secondary" style="padding: 0.65rem 1rem; white-space: nowrap; font-size: 0.82rem;">재설정 메일 발송</button>
+                            </div>
+                            <span class="auth-helper-note" style="margin-top:0.3rem;">가입하신 이메일(${email})로 안전한 비밀번호 재설정 링크가 발송됩니다.</span>
+                        </div>
+                        <div id="mypage-profile-result" style="display:none; margin: 1rem 0;"></div>
+                        <button type="submit" id="btn-submit-mypage-profile" class="btn-primary full-width" style="margin-top: 1.5rem; padding: 0.8rem;">회원정보 수정 완료</button>
+                    </form>
+                </div>
+            </div>
+        </div>
     `;
 }
 
@@ -986,5 +1287,118 @@ export function attachPageEvents() {
     // A/S Form trigger
     document.getElementById('btn-open-as-form')?.addEventListener('click', () => {
         openModal('as-request-modal');
+    });
+
+    // ----------------------------------------------------------------------
+    // MyPage Interaction Handlers
+    // ----------------------------------------------------------------------
+    // Unauthenticated login/join buttons in mypage
+    document.getElementById('btn-mypage-open-login')?.addEventListener('click', () => {
+        openModal('auth-modal');
+        document.getElementById('tab-login-btn')?.click();
+    });
+
+    document.getElementById('btn-mypage-open-join')?.addEventListener('click', () => {
+        openModal('auth-modal');
+        document.getElementById('tab-join-btn')?.click();
+    });
+
+    // MyPage Tabs switching
+    document.querySelectorAll('.mypage-tab-btn').forEach(btn => {
+        btn.addEventListener('click', (e) => {
+            const targetTabId = e.currentTarget.getAttribute('data-target');
+            document.querySelectorAll('.mypage-tab-btn').forEach(b => b.classList.remove('active'));
+            e.currentTarget.classList.add('active');
+
+            document.querySelectorAll('.mypage-tab-content').forEach(tab => {
+                tab.style.display = 'none';
+                tab.classList.remove('active');
+            });
+
+            const activeContent = document.getElementById(targetTabId);
+            if (activeContent) {
+                activeContent.style.display = 'block';
+                activeContent.classList.add('active');
+            }
+        });
+    });
+
+    // MyPage quick action buttons
+    document.getElementById('btn-mypage-view-cart')?.addEventListener('click', () => {
+        openModal('cart-modal');
+    });
+
+    document.getElementById('btn-mypage-write-qna')?.addEventListener('click', () => {
+        openModal('write-qna-modal');
+    });
+    document.getElementById('btn-mypage-empty-qna')?.addEventListener('click', () => {
+        openModal('write-qna-modal');
+    });
+
+    document.getElementById('btn-mypage-write-as')?.addEventListener('click', () => {
+        openModal('as-request-modal');
+    });
+    document.getElementById('btn-mypage-empty-as')?.addEventListener('click', () => {
+        openModal('as-request-modal');
+    });
+
+    document.getElementById('btn-mypage-write-review')?.addEventListener('click', () => {
+        openModal('write-review-modal');
+    });
+    document.getElementById('btn-mypage-empty-rev')?.addEventListener('click', () => {
+        openModal('write-review-modal');
+    });
+
+    // Password Reset Email Trigger in MyPage
+    document.getElementById('btn-mypage-reset-pw')?.addEventListener('click', async (e) => {
+        const user = getCurrentUser();
+        if (!user?.email) return;
+        const btn = e.target;
+        try {
+            btn.disabled = true;
+            btn.textContent = '발송 중...';
+            const res = await resetPassword(user.email);
+            alert(res.message);
+        } catch (err) {
+            alert(err.message);
+        } finally {
+            btn.disabled = false;
+            btn.textContent = '재설정 메일 발송';
+        }
+    });
+
+    // Profile Update Form Submit in MyPage
+    document.getElementById('form-mypage-profile')?.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        const name = document.getElementById('mypage-name')?.value;
+        const phone = document.getElementById('mypage-phone')?.value;
+        const submitBtn = document.getElementById('btn-submit-mypage-profile');
+        const resBox = document.getElementById('mypage-profile-result');
+
+        try {
+            if (submitBtn) {
+                submitBtn.disabled = true;
+                submitBtn.textContent = '수정 저장 중...';
+            }
+            await updateUserProfile({ displayName: name, phone });
+            if (resBox) {
+                resBox.style.display = 'block';
+                resBox.className = 'auth-result-box success';
+                resBox.innerHTML = '✓ 회원정보가 성공적으로 수정되었습니다.';
+                setTimeout(() => { resBox.style.display = 'none'; }, 3000);
+            }
+            alert('회원정보가 성공적으로 수정되었습니다.');
+        } catch (err) {
+            if (resBox) {
+                resBox.style.display = 'block';
+                resBox.className = 'auth-result-box error';
+                resBox.innerHTML = `✕ ${err.message}`;
+            }
+        } finally {
+            if (submitBtn) {
+                submitBtn.disabled = false;
+                submitBtn.textContent = '회원정보 수정 완료';
+            }
+        }
     });
 }

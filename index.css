@@ -3035,6 +3035,278 @@ summary::-moz-list-bullet {
     text-decoration: underline;
 }
 
+/* ==========================================================================
+   MYPAGE (YoungCart & Gnuboard Standard Membership Page)
+   ========================================================================== */
+.mypage-container {
+    max-width: 1200px;
+    margin: 0 auto 3.5rem auto;
+}
+
+.mypage-user-card {
+    background: #faf6f0;
+    border: 1px solid var(--border-gold);
+    border-radius: var(--radius-md);
+    padding: 1.8rem 2rem;
+    margin-bottom: 2.2rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 2rem;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.04);
+}
+
+.mypage-user-profile {
+    display: flex;
+    align-items: center;
+    gap: 1.4rem;
+}
+
+.mypage-avatar-wrap {
+    width: 64px;
+    height: 64px;
+    border-radius: 50%;
+    background: #fff;
+    border: 2px solid var(--accent-gold);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    flex-shrink: 0;
+    box-shadow: 0 2px 8px rgba(184, 134, 11, 0.2);
+}
+
+.mypage-avatar-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.mypage-avatar-placeholder {
+    font-size: 2rem;
+}
+
+.mypage-user-name-row {
+    display: flex;
+    align-items: center;
+    gap: 0.8rem;
+    margin-bottom: 0.35rem;
+}
+
+.mypage-user-name {
+    font-size: 1.45rem;
+    font-weight: 700;
+    color: var(--accent-burgundy);
+    margin: 0;
+}
+
+.mypage-badge-tier {
+    background: var(--accent-burgundy);
+    color: #fff;
+    font-size: 0.72rem;
+    padding: 0.2rem 0.6rem;
+    border-radius: 12px;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+}
+
+.mypage-user-info-text {
+    font-size: 0.88rem;
+    color: #6d6254;
+    margin: 0.2rem 0;
+}
+
+.mypage-user-info-text strong {
+    color: var(--text-primary);
+}
+
+.mypage-stats-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 1.2rem;
+}
+
+.mypage-stat-box {
+    background: #fff;
+    border: 1px solid #ebd9c8;
+    border-radius: var(--radius-sm);
+    padding: 1rem 1.4rem;
+    text-align: center;
+    min-width: 110px;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.02);
+}
+
+.mypage-stat-box .stat-label {
+    display: block;
+    font-size: 0.78rem;
+    color: #8c8275;
+    margin-bottom: 0.35rem;
+}
+
+.mypage-stat-box .stat-value {
+    display: block;
+    font-size: 1.25rem;
+    font-weight: 700;
+    color: var(--text-primary);
+}
+
+.mypage-stat-box .stat-value.gold {
+    color: var(--accent-gold);
+}
+
+.mypage-tabs-bar {
+    display: flex;
+    gap: 0.4rem;
+    border-bottom: 2px solid var(--border-gold);
+    margin-bottom: 2rem;
+    overflow-x: auto;
+}
+
+.mypage-tab-btn {
+    background: none;
+    border: none;
+    padding: 0.9rem 1.4rem;
+    font-size: 0.95rem;
+    font-weight: 600;
+    color: #7d7265;
+    cursor: pointer;
+    border-bottom: 3px solid transparent;
+    margin-bottom: -2px;
+    transition: all 0.2s ease;
+    white-space: nowrap;
+}
+
+.mypage-tab-btn:hover {
+    color: var(--accent-burgundy);
+}
+
+.mypage-tab-btn.active {
+    color: var(--accent-burgundy);
+    border-bottom: 3px solid var(--accent-burgundy);
+    font-weight: 700;
+}
+
+.mypage-tab-content {
+    animation: fadeIn 0.25s ease;
+}
+
+.mypage-section-head {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1.2rem;
+}
+
+.mypage-content-title {
+    font-size: 1.2rem;
+    font-weight: 700;
+    color: var(--text-primary);
+    margin: 0;
+}
+
+.mypage-note {
+    font-size: 0.85rem;
+    color: #8c8275;
+}
+
+.mypage-alert-box {
+    padding: 0.9rem 1.2rem;
+    border-radius: var(--radius-sm);
+    margin-bottom: 1.2rem;
+    font-size: 0.9rem;
+}
+
+.mypage-alert-box.info {
+    background: #fbf6ec;
+    border: 1px solid var(--border-gold);
+    color: #7d5218;
+}
+
+.mypage-table {
+    width: 100%;
+    border-collapse: collapse;
+    background: #fff;
+    border: 1px solid #ebd9c8;
+    text-align: center;
+}
+
+.mypage-table th {
+    background: #faf6f0;
+    border-bottom: 1px solid var(--border-gold);
+    padding: 0.9rem 0.6rem;
+    font-size: 0.88rem;
+    font-weight: 700;
+    color: var(--text-primary);
+}
+
+.mypage-table td {
+    padding: 1rem 0.8rem;
+    border-bottom: 1px solid #f2e9df;
+    font-size: 0.88rem;
+    color: var(--text-primary);
+    vertical-align: middle;
+}
+
+.mypage-table tr:hover td {
+    background: #fdfbf7;
+}
+
+.empty-table-cell {
+    padding: 3.5rem 1rem !important;
+    color: #8c8275;
+    font-size: 0.92rem;
+}
+
+.status-pill {
+    display: inline-block;
+    padding: 0.25rem 0.65rem;
+    border-radius: 12px;
+    font-size: 0.78rem;
+    font-weight: 600;
+}
+
+.status-pill.complete {
+    background: #e8f8f0;
+    color: #1e7e48;
+    border: 1px solid #c3e6cb;
+}
+
+.status-pill.pending {
+    background: #fff8e6;
+    color: #b38600;
+    border: 1px solid #ffeeba;
+}
+
+.status-pill.progress {
+    background: #eaf2fd;
+    color: #1a56a3;
+    border: 1px solid #b8daff;
+}
+
+.mypage-form-card {
+    background: #faf6f0;
+    border: 1px solid var(--border-gold);
+    border-radius: var(--radius-md);
+    padding: 2.5rem 2rem;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.03);
+}
+
+.btn-mypage-link {
+    color: var(--accent-burgundy) !important;
+    font-weight: 700 !important;
+}
+
+@media (max-width: 900px) {
+    .mypage-user-card {
+        flex-direction: column;
+        align-items: stretch;
+    }
+    .mypage-stats-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+
 
 
 
