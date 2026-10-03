@@ -13,8 +13,10 @@ import {
     doc, 
     query, 
     orderBy, 
-    serverTimestamp 
-} from './firebase.js';
+    serverTimestamp,
+    getCol,
+    currentDbEnv 
+} from './firebase.js?v=62';
 
 import { reviewsList as initialReviews, newsArticles as initialArticles } from './data.js?v=55';
 
@@ -58,10 +60,11 @@ const initialQnA = [
     }
 ];
 
-// Local Storage Helper
+// Local Storage Helper (environment-aware prefix)
 function getLocal(key, defaultVal) {
     try {
-        const val = localStorage.getItem(`gg_db_${key}`);
+        const prefix = currentDbEnv === 'dev' ? 'gg_dev_db_' : 'gg_db_';
+        const val = localStorage.getItem(`${prefix}${key}`);
         return val ? JSON.parse(val) : defaultVal;
     } catch (e) {
         return defaultVal;
@@ -70,7 +73,8 @@ function getLocal(key, defaultVal) {
 
 function setLocal(key, val) {
     try {
-        localStorage.setItem(`gg_db_${key}`, JSON.stringify(val));
+        const prefix = currentDbEnv === 'dev' ? 'gg_dev_db_' : 'gg_db_';
+        localStorage.setItem(`${prefix}${key}`, JSON.stringify(val));
     } catch (e) {
         console.error("Local storage error:", e);
     }
@@ -82,7 +86,7 @@ function setLocal(key, val) {
 export async function getReviews() {
     if (isFirestoreAvailable && db) {
         try {
-            const snapshot = await getDocs(collection(db, "reviews"));
+            const snapshot = await getDocs(collection(db, getCol("reviews")));
             if (!snapshot.empty) {
                 const list = [];
                 snapshot.forEach(docSnap => {
@@ -113,7 +117,7 @@ export async function addReview({ title, model, rating, author, password, conten
 
     if (isFirestoreAvailable && db) {
         try {
-            const docRef = await addDoc(collection(db, "reviews"), {
+            const docRef = await addDoc(collection(db, getCol("reviews")), {
                 ...newDoc,
                 createdAt: serverTimestamp()
             });
@@ -135,7 +139,7 @@ export async function addReview({ title, model, rating, author, password, conten
 export async function deleteReview(id, inputPassword) {
     if (isFirestoreAvailable && db) {
         try {
-            await deleteDoc(doc(db, "reviews", id));
+            await deleteDoc(doc(db, getCol("reviews"), id));
             console.log("🗑️ Review deleted from Firestore:", id);
             return { success: true };
         } catch (err) {
@@ -159,7 +163,7 @@ export async function deleteReview(id, inputPassword) {
 export async function getQnAPosts() {
     if (isFirestoreAvailable && db) {
         try {
-            const snapshot = await getDocs(collection(db, "qna"));
+            const snapshot = await getDocs(collection(db, getCol("qna")));
             if (!snapshot.empty) {
                 const list = [];
                 snapshot.forEach(docSnap => {
@@ -191,7 +195,7 @@ export async function addQnAPost({ category, title, author, password, isSecret, 
 
     if (isFirestoreAvailable && db) {
         try {
-            const docRef = await addDoc(collection(db, "qna"), {
+            const docRef = await addDoc(collection(db, getCol("qna")), {
                 ...newDoc,
                 createdAt: serverTimestamp()
             });
@@ -212,7 +216,7 @@ export async function addQnAPost({ category, title, author, password, isSecret, 
 export async function deleteQnAPost(id, inputPassword) {
     if (isFirestoreAvailable && db) {
         try {
-            await deleteDoc(doc(db, "qna", id));
+            await deleteDoc(doc(db, getCol("qna"), id));
             return { success: true };
         } catch (err) {
             console.warn("Firestore QnA delete error:", err);
@@ -235,7 +239,7 @@ export async function deleteQnAPost(id, inputPassword) {
 export async function getAsRequests() {
     if (isFirestoreAvailable && db) {
         try {
-            const snapshot = await getDocs(collection(db, "as_requests"));
+            const snapshot = await getDocs(collection(db, getCol("as_requests")));
             if (!snapshot.empty) {
                 const list = [];
                 snapshot.forEach(docSnap => {
@@ -267,7 +271,7 @@ export async function addAsRequest({ name, phone, model, type, desc }) {
 
     if (isFirestoreAvailable && db) {
         try {
-            const docRef = await addDoc(collection(db, "as_requests"), {
+            const docRef = await addDoc(collection(db, getCol("as_requests")), {
                 ...newDoc,
                 createdAt: serverTimestamp()
             });
@@ -292,7 +296,7 @@ export async function getArticles(type = 'all') {
     let list = [];
     if (isFirestoreAvailable && db) {
         try {
-            const snapshot = await getDocs(collection(db, "articles"));
+            const snapshot = await getDocs(collection(db, getCol("articles")));
             if (!snapshot.empty) {
                 snapshot.forEach(docSnap => {
                     list.push({ id: docSnap.id, ...docSnap.data() });
@@ -324,7 +328,7 @@ export async function addArticle({ type, title, author, summary, content }) {
 
     if (isFirestoreAvailable && db) {
         try {
-            const docRef = await addDoc(collection(db, "articles"), {
+            const docRef = await addDoc(collection(db, getCol("articles")), {
                 ...newDoc,
                 createdAt: serverTimestamp()
             });
@@ -347,27 +351,27 @@ export async function addArticle({ type, title, author, summary, content }) {
 export async function seedInitialDataIfNeeded() {
     if (!isFirestoreAvailable || !db) return;
     try {
-        const revSnap = await getDocs(collection(db, "reviews"));
+        const revSnap = await getDocs(collection(db, getCol("reviews")));
         if (revSnap.empty) {
             console.log("🌱 Auto-seeding initial reviews into Cloud Firestore...");
             for (const r of initialReviews) {
-                await addDoc(collection(db, "reviews"), { ...r, createdAt: serverTimestamp() });
+                await addDoc(collection(db, getCol("reviews")), { ...r, createdAt: serverTimestamp() });
             }
         }
 
-        const qnaSnap = await getDocs(collection(db, "qna"));
+        const qnaSnap = await getDocs(collection(db, getCol("qna")));
         if (qnaSnap.empty) {
             console.log("🌱 Auto-seeding initial QnA into Cloud Firestore...");
             for (const q of initialQnA) {
-                await addDoc(collection(db, "qna"), { ...q, createdAt: serverTimestamp() });
+                await addDoc(collection(db, getCol("qna")), { ...q, createdAt: serverTimestamp() });
             }
         }
 
-        const artSnap = await getDocs(collection(db, "articles"));
+        const artSnap = await getDocs(collection(db, getCol("articles")));
         if (artSnap.empty) {
             console.log("🌱 Auto-seeding initial articles into Cloud Firestore...");
             for (const a of initialArticles) {
-                await addDoc(collection(db, "articles"), { ...a, createdAt: serverTimestamp() });
+                await addDoc(collection(db, getCol("articles")), { ...a, createdAt: serverTimestamp() });
             }
         }
     } catch (e) {

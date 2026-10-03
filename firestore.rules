@@ -1,34 +1,56 @@
 rules_version = '2';
 service cloud.firestore {
   match /databases/{database}/documents {
-    // Users collection (회원 프로필 및 아이디 찾기)
+    // Users collection (회원 프로필 및 아이디 찾기 - prod & dev)
     match /users/{userId} {
       allow read, write: if true;
     }
+    match /dev_users/{userId} {
+      allow read, write: if true;
+    }
 
-    // Reviews collection (체험단 및 연주자 리뷰)
+    // Reviews collection (체험단 및 연주자 리뷰 - prod & dev)
     match /reviews/{document} {
       allow read: if true;
       allow create: if request.resource.data.title is string && request.resource.data.content is string;
       allow update, delete: if true;
     }
-
-    // Q&A collection (1:1 질문과 답변)
-    match /qna/{document} {
+    match /dev_reviews/{document} {
       allow read: if true;
       allow create: if request.resource.data.title is string && request.resource.data.content is string;
       allow update, delete: if true;
     }
 
-    // A/S Requests collection (수리 및 점검 신청)
+    // Q&A collection (1:1 질문과 답변 - prod & dev)
+    match /qna/{document} {
+      allow read: if true;
+      allow create: if request.resource.data.title is string && request.resource.data.content is string;
+      allow update, delete: if true;
+    }
+    match /dev_qna/{document} {
+      allow read: if true;
+      allow create: if request.resource.data.title is string && request.resource.data.content is string;
+      allow update, delete: if true;
+    }
+
+    // A/S Requests collection (수리 및 점검 신청 - prod & dev)
     match /as_requests/{document} {
       allow read: if true;
       allow create: if request.resource.data.name is string;
       allow update, delete: if true;
     }
+    match /dev_as_requests/{document} {
+      allow read: if true;
+      allow create: if request.resource.data.name is string;
+      allow update, delete: if true;
+    }
 
-    // Articles collection (공지사항 / 뉴스 / 연주회)
+    // Articles collection (공지사항 / 뉴스 / 연주회 - prod & dev)
     match /articles/{document} {
+      allow read: if true;
+      allow create, update, delete: if true;
+    }
+    match /dev_articles/{document} {
       allow read: if true;
       allow create, update, delete: if true;
     }

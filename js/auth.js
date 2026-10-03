@@ -21,8 +21,10 @@ import {
     collection,
     where,
     query,
-    serverTimestamp
-} from './firebase.js?v=59';
+    serverTimestamp,
+    getCol,
+    currentDbEnv
+} from './firebase.js?v=62';
 
 let currentUser = null;
 
@@ -64,7 +66,7 @@ export async function loginWithGoogle() {
         // Also save profile to Firestore users collection
         if (isFirestoreAvailable && db) {
             try {
-                await setDoc(doc(db, 'users', user.uid), {
+                await setDoc(doc(db, getCol('users'), user.uid), {
                     uid: user.uid,
                     name: currentUser.displayName,
                     email: user.email,
@@ -178,7 +180,7 @@ export async function registerWithEmail(email, password, name, phone) {
         // 3. Save profile metadata in Firestore DB (Passwords are NEVER stored in Firestore)
         if (isFirestoreAvailable && db) {
             try {
-                await setDoc(doc(db, 'users', u.uid), {
+                await setDoc(doc(db, getCol('users'), u.uid), {
                     uid: u.uid,
                     name: cleanName,
                     email: cleanEmail,
@@ -192,9 +194,10 @@ export async function registerWithEmail(email, password, name, phone) {
 
         // Also save to local registry cache for fast lookup
         try {
-            const list = JSON.parse(localStorage.getItem('gg_registered_users') || '[]');
+            const regKey = currentDbEnv === 'dev' ? 'gg_dev_registered_users' : 'gg_registered_users';
+            const list = JSON.parse(localStorage.getItem(regKey) || '[]');
             list.push({ uid: u.uid, name: cleanName, email: cleanEmail, phone: cleanPhone });
-            localStorage.setItem('gg_registered_users', JSON.stringify(list));
+            localStorage.setItem(regKey, JSON.stringify(list));
         } catch(e) {}
 
         currentUser = {
@@ -232,7 +235,7 @@ export async function findId(name, phone) {
     // A. Query Firestore 'users' collection
     if (isFirestoreAvailable && db) {
         try {
-            const usersRef = collection(db, 'users');
+            const usersRef = collection(db, getCol('users'));
             const q = query(usersRef, where('name', '==', cleanName));
             const snapshot = await getDocs(q);
             const matches = [];
@@ -254,7 +257,8 @@ export async function findId(name, phone) {
 
     // B. Local fallback search
     try {
-        const list = JSON.parse(localStorage.getItem('gg_registered_users') || '[]');
+        const regKey = currentDbEnv === 'dev' ? 'gg_dev_registered_users' : 'gg_registered_users';
+        const list = JSON.parse(localStorage.getItem(regKey) || '[]');
         const found = list.filter(u => 
             u.name === cleanName && 
             (u.phone || '').replace(/[^0-9]/g, '') === cleanPhoneDigits
